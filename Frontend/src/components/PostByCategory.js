@@ -7,7 +7,7 @@ class PostByCategory extends Component{
         const {category} = this.props.match.params
         return (
         <Segment>
-            Post Section {category}
+            Post By Category {category}
             <PostList />
         </Segment>     
         )
