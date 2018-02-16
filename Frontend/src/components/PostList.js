@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import  { List, Icon, Button } from 'semantic-ui-react'
+import { List, Icon, Button, Label } from 'semantic-ui-react'
 
 class PostList extends Component {
 
@@ -28,7 +28,12 @@ class PostList extends Component {
                             </h3>    
                             </List.Header>
                                 <List.Description style={{paddingTop:10}}>
-                                    Posted by <b>{post.author}</b> in {this.handleDateTime(post.timestamp)}.
+                                    <Label>
+                                     <Icon name='heart' /> {post.voteScore}
+                                    </Label>
+                                    <Label>
+                                     Posted by <b>{post.author}</b> in {this.handleDateTime(post.timestamp)}  
+                                    </Label>
                                 </List.Description>
                         </List.Content>
                     </List.Item>

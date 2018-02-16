@@ -10,7 +10,9 @@ class PostByCategory extends Component{
 
     componentWillMount(){
         const {category} = this.props.match.params
-        API.getPostByCategory(category).then(posts=>this.props.definePosts(posts))
+        API.getPostByCategory(category)
+        .then(posts=> posts.sort((a,b) => b.voteScore - a.voteScore))
+        .then(filteredPosts=>this.props.definePosts(filteredPosts))
     }
 
     componentWillReceiveProps(nextProps){

@@ -9,7 +9,9 @@ import FilterControl from './FilterControl'
 class PostSection extends Component{
 
     componentWillMount(){
-        API.getAllPosts().then(posts=>this.props.definePosts(posts))   
+        API.getAllPosts()
+            .then(posts=> posts.sort((a,b) => b.voteScore - a.voteScore))
+            .then(orderedPosts => this.props.definePosts(orderedPosts))
     }
     
     render () {
