@@ -14,3 +14,19 @@ export const setPosts = (posts) => {
         posts
     }
 }
+
+export const orderPosts = (posts) => (
+    dispatch => {
+
+        dispatch({
+            type: SET_POSTS,
+            posts: []
+        })
+        dispatch({
+            type: SET_POSTS,
+            posts
+        })
+
+    }
+)
+    

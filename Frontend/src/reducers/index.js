@@ -1,6 +1,6 @@
 import {
     SET_CATEGORIES,
-    SET_POSTS
+    SET_POSTS,
 } from '../actions'
 
 const initialState = {

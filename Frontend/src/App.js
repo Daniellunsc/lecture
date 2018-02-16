@@ -9,6 +9,14 @@ import {Route} from 'react-router-dom'
 class App extends Component {
 
   render() {
+
+    {/*
+
+      DOC: O PostSection busca todos os posts SEM categoria
+      DOC: O PostByCategory busca todos os posts baseados na categoria passada
+      DOC: O Componente Post que vai fazer a renderização Baseada na Store.
+
+    */}
     
     return (
         <Container>
