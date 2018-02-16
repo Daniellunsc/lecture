@@ -8,18 +8,12 @@ import {Route} from 'react-router-dom'
 
 class App extends Component {
 
-  onMenuClick = (item) => {
-    console.log(item)
-  }
-
   render() {
     
-    
-
     return (
         <Container>
 
-          <PageHeader onMenuClick={this.onMenuClick}/>
+          <PageHeader />
           
           <Route exact path='/' render={()=>(
             <PostSection />
