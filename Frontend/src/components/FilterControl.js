@@ -1,30 +1,33 @@
 import React, {Component} from 'react'
-import {Button} from 'semantic-ui-react'
+import {Button, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {orderPosts} from '../actions'
 
 class FilterControl extends Component{
 
     state = {
-        filterToggle: -1
+        filterToggleVote: -1,
+        filterToggleRecent: -1
     }
 
     orderByVoteScore(){
 
-        const {posts} = this.props
-        if(this.state.filterToggle == -1) { // Decrescente
+        let newPost;
 
-            var newPost = posts.sort(function(a,b){
+        const {posts} = this.props
+        if(this.state.filterToggleVote == -1) { // Decrescente
+
+            newPost = posts.sort(function(a,b){
                 return a.voteScore - b.voteScore
             })
-            this.setState({filterToggle:1})
+            this.setState({filterToggleVote:1})
             
-        }else if(this.state.filterToggle == 1){
+        }else if(this.state.filterToggleVote == 1){
 
-            var newPost = posts.sort(function(a,b){ //Crescente
+            newPost = posts.sort(function(a,b){ //Crescente
                 return b.voteScore - a.voteScore
             })
-            this.setState({filterToggle:-1})
+            this.setState({filterToggleVote:-1})
         }
 
         this.props.definePosts(newPost)
@@ -33,29 +36,39 @@ class FilterControl extends Component{
     orderByDate(){
 
         const {posts} = this.props
-        if(this.state.filterToggle == -1) { // Decrescente
 
-            var newPost = posts.sort(function(a,b){
+        let newPost;
+
+        if(this.state.filterToggleRecent == -1) { // Decrescente
+
+            newPost = posts.sort(function(a,b){
                 return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
             })
-            this.setState({filterToggle:1})
+            this.setState({filterToggleRecent:1})
             
-        }else if(this.state.filterToggle == 1){
+        }else if(this.state.filterToggleRecent == 1){
 
-            var newPost = posts.sort(function(a,b){ //Crescente
+            newPost = posts.sort(function(a,b){ //Crescente
                 return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
             })
-            this.setState({filterToggle:-1})
+            this.setState({filterToggleRecent:-1})
         }
 
         this.props.definePosts(newPost)
     }
 
     render(){
+
         return(
             <Button.Group floated='right'>
-                <Button onClick={this.orderByVoteScore.bind(this)}>VoteScore</Button>
-                <Button onClick={this.orderByDate.bind(this)}>Most Recent</Button>
+                <Button icon labelPosition='left' onClick={this.orderByVoteScore.bind(this)}>
+                    <Icon name={this.state.filterToggleVote == 1 ? 'chevron up' : 'chevron down'}/>
+                    VoteScore
+                </Button>
+                <Button icon labelPosition='left' onClick={this.orderByDate.bind(this)}>
+                    <Icon name={this.state.filterToggleRecent == 1 ? 'chevron up' : 'chevron down'}/>
+                    MostRecent
+                </Button>
             </Button.Group>
         )
     }
