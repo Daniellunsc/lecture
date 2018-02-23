@@ -5,7 +5,7 @@ import * as API from '../utils/API'
 import {connect} from 'react-redux'
 import {setPosts} from '../actions'
 import FilterControl from './FilterControl'
-import AddPostButton from './AddPost'
+import AddPost from './AddPost'
 
 class PostSection extends Component{
 
@@ -20,7 +20,7 @@ class PostSection extends Component{
         <Segment>
        
             Post Section
-            <AddPostButton />
+            <AddPost />
             <FilterControl />
             <PostList />
             
