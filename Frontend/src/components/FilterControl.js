@@ -15,14 +15,14 @@ class FilterControl extends Component{
         let newPost;
 
         const {posts} = this.props
-        if(this.state.filterToggleVote == -1) { // Decrescente
+        if(this.state.filterToggleVote === -1) { // Decrescente
 
             newPost = posts.sort(function(a,b){
                 return a.voteScore - b.voteScore
             })
             this.setState({filterToggleVote:1})
             
-        }else if(this.state.filterToggleVote == 1){
+        }else if(this.state.filterToggleVote === 1){
 
             newPost = posts.sort(function(a,b){ //Crescente
                 return b.voteScore - a.voteScore
@@ -39,14 +39,14 @@ class FilterControl extends Component{
 
         let newPost;
 
-        if(this.state.filterToggleRecent == -1) { // Decrescente
+        if(this.state.filterToggleRecent === -1) { // Decrescente
 
             newPost = posts.sort(function(a,b){
                 return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
             })
             this.setState({filterToggleRecent:1})
             
-        }else if(this.state.filterToggleRecent == 1){
+        }else if(this.state.filterToggleRecent === 1){
 
             newPost = posts.sort(function(a,b){ //Crescente
                 return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
@@ -62,11 +62,11 @@ class FilterControl extends Component{
         return(
             <Button.Group floated='right'>
                 <Button icon labelPosition='left' onClick={this.orderByVoteScore.bind(this)}>
-                    <Icon name={this.state.filterToggleVote == 1 ? 'chevron up' : 'chevron down'}/>
+                    <Icon name={this.state.filterToggleVote === 1 ? 'chevron up' : 'chevron down'}/>
                     Vote Score
                 </Button>
                 <Button icon labelPosition='left' onClick={this.orderByDate.bind(this)}>
-                    <Icon name={this.state.filterToggleRecent == 1 ? 'chevron up' : 'chevron down'}/>
+                    <Icon name={this.state.filterToggleRecent === 1 ? 'chevron up' : 'chevron down'}/>
                     Most Recent
                 </Button>
             </Button.Group>

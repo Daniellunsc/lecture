@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { List, Icon, Button, Label } from 'semantic-ui-react'
+import { List, Icon, Label } from 'semantic-ui-react'
 
 class PostList extends Component {
 
