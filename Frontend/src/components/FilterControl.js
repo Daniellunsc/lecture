@@ -63,11 +63,11 @@ class FilterControl extends Component{
             <Button.Group floated='right'>
                 <Button icon labelPosition='left' onClick={this.orderByVoteScore.bind(this)}>
                     <Icon name={this.state.filterToggleVote == 1 ? 'chevron up' : 'chevron down'}/>
-                    VoteScore
+                    Vote Score
                 </Button>
                 <Button icon labelPosition='left' onClick={this.orderByDate.bind(this)}>
                     <Icon name={this.state.filterToggleRecent == 1 ? 'chevron up' : 'chevron down'}/>
-                    MostRecent
+                    Most Recent
                 </Button>
             </Button.Group>
         )
