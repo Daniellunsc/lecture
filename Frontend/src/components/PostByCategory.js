@@ -26,7 +26,7 @@ class PostByCategory extends Component{
         return (
         <Segment>
             Post By Category {category}
-            <AddPost />
+            <AddPost/>
             <FilterControl />
             <PostList />
         </Segment>     

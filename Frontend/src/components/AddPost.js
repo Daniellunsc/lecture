@@ -11,7 +11,7 @@ class AddPost extends Component {
     title:'',
     description: '',
     author: '',
-    category: ''
+    category: 'react'
   }
 
   handleOpen = () => this.setState({modalOpen:true})
