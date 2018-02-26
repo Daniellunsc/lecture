@@ -5,6 +5,7 @@ import * as API from '../utils/API'
 import {connect} from 'react-redux'
 import {setPosts} from '../actions'
 import FilterControl from './FilterControl'
+import AddPost from './AddPost'
 
 class PostByCategory extends Component{
 
@@ -25,6 +26,7 @@ class PostByCategory extends Component{
         return (
         <Segment>
             Post By Category {category}
+            <AddPost />
             <FilterControl />
             <PostList />
         </Segment>     

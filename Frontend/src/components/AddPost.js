@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {Button, Icon, Modal, Form} from 'semantic-ui-react'
 import {connect} from 'react-redux'
+import * as API from '../utils/API'
+import {setPosts} from '../actions'
 
 class AddPost extends Component {
 
@@ -15,13 +17,24 @@ class AddPost extends Component {
   handleOpen = () => this.setState({modalOpen:true})
   handleClose = () => this.setState({modalOpen:false})
   handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
-  handleClick = () => console.log(this.state)
+  handleClick = () => {
+
+      API.MakePost(this.state).then(res=>{
+
+        const {posts, definePosts} = this.props
+
+        posts.push(res)
+
+        definePosts(posts)
+
+        this.setState({modalOpen: false})
+      })    
+  }
 
   render(){
 
     const {title, description, author, category} = this.state
     const {categories} = this.props
-
     return(
       <Modal 
       trigger={
@@ -67,15 +80,22 @@ class AddPost extends Component {
   }
 }
 
-function MapStateToProps({categories}){
+function MapStateToProps({categories, posts}){
   return{
       categories : categories.map(cat => {
         cat.key = cat.name
         cat.value = cat.name
         cat.text = cat.name
         return cat
-      })
+      }),
+      posts
   }
 }
 
-export default connect(MapStateToProps, null)(AddPost)
+function mapDispatchToProps(dispatch) {
+  return{
+      definePosts: (posts) => dispatch(setPosts(posts))
+  }  
+}
+
+export default connect(MapStateToProps, mapDispatchToProps)(AddPost)

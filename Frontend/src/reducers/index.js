@@ -1,6 +1,7 @@
 import {
     SET_CATEGORIES,
     SET_POSTS,
+    ADD_POST,
 } from '../actions'
 
 const initialState = {

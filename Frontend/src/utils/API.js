@@ -17,3 +17,23 @@ export const getPostByCategory = (category) => {
     return fetch(`${api}/${category}/posts`, {headers})
         .then(res=>res.json())
 }
+
+export const MakePost = ({title, description, author, category}) => {
+
+    let timestamp = Date.now()
+
+    let id =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    {/*
+        CODE FROM GIST: https://gist.github.com/6174/6062387
+    */}
+   
+
+    return fetch(`${api}/posts`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({id, timestamp, title, description, author, category})
+    }).then(res=> res.json())
+}
