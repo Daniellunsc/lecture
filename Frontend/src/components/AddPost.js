@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Button, Icon, Modal, Form} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import * as API from '../utils/API'
-import {setPosts} from '../actions'
+import {orderPosts} from '../actions'
 
 class AddPost extends Component {
 
@@ -94,7 +94,7 @@ function MapStateToProps({categories, posts}){
 
 function mapDispatchToProps(dispatch) {
   return{
-      definePosts: (posts) => dispatch(setPosts(posts))
+      definePosts: (posts) => dispatch(orderPosts(posts))
   }  
 }
 

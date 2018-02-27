@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { List, Icon, Label } from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 
 class PostList extends Component {
 
@@ -17,9 +18,9 @@ class PostList extends Component {
         const {posts} = this.props
         console.log(posts)
         return(
-            <List relaxed='very' selection animated divided >
+            <List relaxed='very' selection animated divided>
                 {posts.map(post=> (
-                    <List.Item key={post.id}>
+                    <List.Item key={post.id} as={Link} name='post' to={`/${post.category}/${post.id}`}>
                         <Icon name='comments outline' size='large' />
                         <List.Content>
                             <List.Header>
