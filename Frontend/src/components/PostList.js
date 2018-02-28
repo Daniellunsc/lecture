@@ -2,13 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { List, Icon, Label } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
+import * as helpers from '../utils/Helpers'
 
 class PostList extends Component {
 
-    handleDateTime(timestamp=0){
-        let data = new Date(timestamp)
-        return `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`    
-    }
+    
 
     componentWillReceiveProps(props){
         console.log(props)
@@ -33,7 +31,7 @@ class PostList extends Component {
                                      <Icon name='heart' /> {post.voteScore}
                                     </Label>
                                     <Label>
-                                     Posted by <b>{post.author}</b> in {this.handleDateTime(post.timestamp)}  
+                                     Posted by <b>{post.author}</b> in {helpers.handleDateTime(post.timestamp)}  
                                     </Label>
                                 </List.Description>
                         </List.Content>

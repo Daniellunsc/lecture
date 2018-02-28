@@ -3,3 +3,8 @@ export function capitalize (str = '') {
       ? ''
       : str[0].toUpperCase() + str.slice(1)
   }
+
+export function handleDateTime(timestamp=0){
+  let data = new Date(timestamp)
+  return `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`    
+}

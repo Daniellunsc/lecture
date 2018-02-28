@@ -9,7 +9,7 @@ class AddPost extends Component {
   state = {
     modalOpen:false,
     title:'',
-    description: '',
+    body: '',
     author: '',
     category: 'react'
   }
@@ -33,7 +33,7 @@ class AddPost extends Component {
 
   render(){
 
-    const {title, description, author, category} = this.state
+    const {title, body, author, category} = this.state
     const {categories} = this.props
     return(
       <Modal 
@@ -56,7 +56,7 @@ class AddPost extends Component {
               <Form.Input fluid label='Post Title' name='title' value={title} placeholder='The main content of the post' onChange={this.handleFormEdit}/>
             </Form.Field>
             <Form.Field>
-              <Form.TextArea label='Post Description' name='description' value={description} placeholder='Write about...' onChange={this.handleFormEdit}/>
+              <Form.TextArea label='Post Description' name='body' value={body} placeholder='Write about...' onChange={this.handleFormEdit}/>
             </Form.Field>
             <Form.Field>
               <Form.Input fluid label='Author' name='author' value={author} placeholder='Tell us your name or nickname' onChange={this.handleFormEdit}/>

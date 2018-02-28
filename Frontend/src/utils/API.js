@@ -18,7 +18,7 @@ export const getPostByCategory = (category) => {
         .then(res=>res.json())
 }
 
-export const MakePost = ({title, description, author, category}) => {
+export const MakePost = ({title, body, author, category}) => {
 
     let timestamp = Date.now()
 
@@ -34,6 +34,13 @@ export const MakePost = ({title, description, author, category}) => {
             ...headers,
             'Content-Type' : 'application/json'
         },
-        body: JSON.stringify({id, timestamp, title, description, author, category})
+        body: JSON.stringify({id, timestamp, title, body, author, category})
     }).then(res=> res.json())
+}
+
+export const fetchPost = (postID) => {
+
+    return fetch(`${api}/posts/${postID}`, {headers})
+        .then(res=>res.json())
+
 }

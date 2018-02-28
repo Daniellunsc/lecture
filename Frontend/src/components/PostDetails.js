@@ -1,23 +1,36 @@
 import React, {Component} from 'react'
-import {Segment} from 'semantic-ui-react'
+import {Segment, Label, Header, Icon, Button} from 'semantic-ui-react'
+import * as API from '../utils/API'
+import * as helpers from '../utils/Helpers'
 
 class PostDetails extends Component {
 
     state = {
-        postID: ''
+        post: {
+
+        },
+        comments: {
+
+        }
     }
 
     componentWillMount(){
-        console.log(this.props)
-        this.setState({postID: this.props.match.params.postID})
-        console.log(this.state)
+
+        const {postID} = this.props.match.params
+
+        API.fetchPost(postID).then(res=>this.setState({post: res}))
+
     }
 
     render(){
+
+        const {post} = this.state
+
         return(
             <Segment>
-                <p>{this.state.postID}</p>
+
             </Segment>
+           
         )
     }
 }
