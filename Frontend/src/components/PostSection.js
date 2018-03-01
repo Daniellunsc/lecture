@@ -12,7 +12,7 @@ class PostSection extends Component{
     componentWillMount(){
         API.getAllPosts()
             .then(posts=> posts.sort((a,b) => b.voteScore - a.voteScore))
-            .then(orderedPosts => this.props.definePosts(orderedPosts))
+            .then(orderedPosts => this.props.definePosts(orderedPosts.filter(post=> post.deleted==false)))
     }
     
     render () {
