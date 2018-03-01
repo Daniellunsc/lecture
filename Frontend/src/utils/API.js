@@ -44,3 +44,14 @@ export const fetchPost = (postID) => {
         .then(res=>res.json())
 
 }
+
+export const votePost = (postID, option) => {
+    return fetch(`${api}/posts/${postID}`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({option})
+    }).then(res=> res.json())
+}
