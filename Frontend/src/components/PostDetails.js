@@ -54,7 +54,7 @@ class PostDetails extends Component {
                         <Icon name='plus'/>
                     </Button.Content>
                     </Button>
-                    <Button.Or />
+                    <Button.Or text={post.voteScore}/> 
                     <Button animated negative onClick={()=>this.handleVote(-1)}>
                     <Button.Content visible>DownScore</Button.Content>
                     <Button.Content hidden>
@@ -62,10 +62,7 @@ class PostDetails extends Component {
                     </Button.Content>
                     </Button>
                 </Button.Group>
-                
-                <Label size='large'>
-                    <Icon name='heart' /> {post.voteScore}
-                </Label>
+
                 <Label size='large'>
                     Posted by <b>{post.author}</b> in {helpers.handleDateTime(post.timestamp)}  
                 </Label>
