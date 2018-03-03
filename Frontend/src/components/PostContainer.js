@@ -16,15 +16,15 @@ class PostContainer extends Component {
     componentWillMount(){
         let category = this.checkCategory(this.props)
         
-        this.fetchPost(category)
+        this.fetchPosts(category)
     }
 
     componentWillReceiveProps(nextProps){
         let category = this.checkCategory(nextProps)
-        this.fetchPost(category)
+        this.fetchPosts(category)
     }
 
-    fetchPost(category){
+    fetchPosts(category){
 
         this.setState({loading: true})
         const {setPosts, setPostErrors} = this.props
@@ -32,13 +32,13 @@ class PostContainer extends Component {
         if(category){
             API.getPostByCategory(category)
                 .then(posts=> posts.sort((a,b) => b.voteScore - a.voteScore))
-                .then(filteredPosts=>setPosts(filteredPosts.filter(post=> post.deleted==false)))
+                .then(filteredPosts=>setPosts(filteredPosts.filter(post=> post.deleted===false)))
                 .then(res=> this.setState({loading: false}))
                 .catch(err=> setPostErrors(err))
         }else{
             API.getAllPosts()
                 .then(posts=> posts.sort((a,b) => b.voteScore - a.voteScore))
-                .then(filteredPosts=>setPosts(filteredPosts.filter(post=> post.deleted==false)))
+                .then(filteredPosts=>setPosts(filteredPosts.filter(post=> post.deleted===false)))
                 .then(res=> this.setState({loading: false}))
                 .catch(err=> setPostErrors(err))
         }

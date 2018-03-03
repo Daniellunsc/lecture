@@ -10,7 +10,7 @@ class VotePost extends Component {
 
         const {post, changePostVote} = this.props
         
-        let optionString = vote == 1 ? 'upVote' : 'downVote'
+        let optionString = vote === 1 ? 'upVote' : 'downVote'
 
         API.votePost(post.id, optionString).then(res=> 
             changePostVote(res)

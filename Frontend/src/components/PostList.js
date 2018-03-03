@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { List, Icon, Label, Button } from 'semantic-ui-react'
+import { List, Icon, Label} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import * as helpers from '../utils/Helpers'
 import VotePost from './VotePost'
-import * as API from '../utils/API'
 
 class PostList extends Component {
 

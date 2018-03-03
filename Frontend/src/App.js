@@ -23,6 +23,7 @@ class App extends Component {
 
           <Route exact path='/' component={PostContainer} />
           <Route exact path='/:category' component={PostContainer} />
+          <Route exact path='/:category/:postID' component={PostDetails} />
            
           </Switch>
         

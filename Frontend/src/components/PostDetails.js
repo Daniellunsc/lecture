@@ -1,39 +1,38 @@
 import React, {Component} from 'react'
-import {Segment, Label, Header, Icon, Button, Divider, Confirm} from 'semantic-ui-react'
+import {Segment, Label, Icon, Button, Confirm} from 'semantic-ui-react'
 import * as API from '../utils/API'
 import * as helpers from '../utils/Helpers'
-import VotePost from './VotePost';
+import {connect} from 'react-redux'
+import {setPosts} from '../actions/postsActions'
+import  VotePost from './VotePost'
 
 class PostDetails extends Component {
 
     state = {
-        confirmOpen: false,
-        post: {
-
-        },
-        comments: {
-
-        }
+        confirmOpen : false
     }
 
     componentWillMount(){
-
         const {postID} = this.props.match.params
+        const {definePost} = this.props
 
         API.fetchPost(postID)
-            .then(res=>this.setState({post: res}))
-            .then()
-
+            .then(post=>this.props.definePost([post]))
+            .catch(err=>console.log(err))
     }
 
-    handleVote(vote){
+    componentWillReceiveProps(nextProps){
 
-        const {post} = this.state
-        
-        let optionString = vote == 1 ? 'upVote' : 'downVote'
+        const {post, definePost} = this.props
+        const {postID} = nextProps.match.params
 
-        API.votePost(post.id, optionString).then(res=> this.setState({post: res}))
-
+        if(post){
+            if(postID !== post.id){
+                API.fetchPost(postID)
+                    .then(post=>definePost([post]))
+                    .catch(err=>console.log(err))
+            }
+        }
     }
 
     handleDelete = () => this.setState({confirmOpen: true})
@@ -41,16 +40,19 @@ class PostDetails extends Component {
 
     handleConfirm = () => {
 
-        API.deletePost(this.state.post.id)
-            .then(res=> this.setState({confirmOpen: false, post: res}))
+        const {post, definePost} = this.props
+
+        API.deletePost(post.id)
+            .then(res=> definePost(res))
+            .then(res=> this.setState({confirmOpen: false}))
     }
 
     render(){
-
-        const {post, confirmOpen} = this.state
-
+        const {post} = this.props
+        const {confirmOpen} = this.state
         return(
-            <Segment>
+              post !== undefined && Object.keys(post).length > 0 ? 
+              <Segment>
                 <Label attached='top' size='large' color='blue'>
                     {post.title}
                     <Label.Detail>Posted by <b>{post.author}</b> in {helpers.handleDateTime(post.timestamp)}  </Label.Detail>
@@ -75,9 +77,23 @@ class PostDetails extends Component {
                     content='Are you sure you want to delete this post?'
                 />
             </Segment>
-           
+              : 
+            <div>Post Deleted or Not Found</div>
         )
     }
 }
 
-export default PostDetails
+function mapStateToProps({postsReducer}){
+    return{
+        post: postsReducer.posts[0]
+    }
+    
+}
+
+function MapDispatchToProps(dispatch){
+    return{
+        definePost: (post) => dispatch(setPosts(post))
+    }
+}
+
+export default connect(mapStateToProps, MapDispatchToProps)(PostDetails)
