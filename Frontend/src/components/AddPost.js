@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Button, Icon, Modal, Form} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import * as API from '../utils/API'
-import {orderPosts} from '../actions'
+import {orderPosts} from '../actions/postsActions'
 
 class AddPost extends Component {
 
@@ -27,7 +27,13 @@ class AddPost extends Component {
 
         definePosts(posts)
 
-        this.setState({modalOpen: false})
+        this.setState({
+          modalOpen: false,
+          title: '',
+          body:'',
+          author:'',
+          category: 'react'
+        })
       })    
   }
 
@@ -38,7 +44,7 @@ class AddPost extends Component {
     return(
       <Modal 
       trigger={
-        <Button animated floated='right' positive onClick={this.handleOpen}>
+        <Button animated floated='right' positive onClick={this.handleOpen} size='tiny'>
           <Button.Content visible>Add Post</Button.Content>
             <Button.Content hidden>
               <Icon name='plus'/>
@@ -80,15 +86,15 @@ class AddPost extends Component {
   }
 }
 
-function MapStateToProps({categories, posts}){
+function MapStateToProps({categoriesReducer, postsReducer}){
   return{
-      categories : categories.map(cat => {
+      categories : categoriesReducer.categories.map(cat => {
         cat.key = cat.name
         cat.value = cat.name
         cat.text = cat.name
         return cat
       }),
-      posts
+      posts: postsReducer.posts,
   }
 }
 

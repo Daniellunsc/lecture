@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Button, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {orderPosts} from '../actions'
+import {orderPosts} from '../actions/postsActions'
 
 class FilterControl extends Component{
 
@@ -14,7 +14,7 @@ class FilterControl extends Component{
 
         let newPost;
 
-        const {posts} = this.props
+        const {posts, definePosts} = this.props
         if(this.state.filterToggleVote === -1) { // Decrescente
 
             newPost = posts.sort(function(a,b){
@@ -30,12 +30,12 @@ class FilterControl extends Component{
             this.setState({filterToggleVote:-1})
         }
 
-        this.props.definePosts(newPost)
+        definePosts(newPost)
     }
     
     orderByDate(){
 
-        const {posts} = this.props
+        const {posts, definePosts} = this.props
 
         let newPost;
 
@@ -54,13 +54,13 @@ class FilterControl extends Component{
             this.setState({filterToggleRecent:-1})
         }
 
-        this.props.definePosts(newPost)
+        definePosts(newPost)
     }
 
     render(){
 
         return(
-            <Button.Group floated='right'>
+            <Button.Group floated='right' size='tiny'>
                 <Button icon labelPosition='left' onClick={this.orderByVoteScore.bind(this)}>
                     <Icon name={this.state.filterToggleVote === 1 ? 'chevron up' : 'chevron down'}/>
                     Vote Score
@@ -74,9 +74,9 @@ class FilterControl extends Component{
     }
 }
 
-function MapStateToProps({posts}){
+function MapStateToProps({postsReducer}){
     return{
-        posts
+        posts: postsReducer.posts
     }
 }
 

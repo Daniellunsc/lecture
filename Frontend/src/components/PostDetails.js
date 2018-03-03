@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
-import {Segment, Label, Header, Icon, Button, Divider} from 'semantic-ui-react'
+import {Segment, Label, Header, Icon, Button, Divider, Confirm} from 'semantic-ui-react'
 import * as API from '../utils/API'
 import * as helpers from '../utils/Helpers'
+import VotePost from './VotePost';
 
 class PostDetails extends Component {
 
     state = {
+        confirmOpen: false,
         post: {
 
         },
@@ -34,40 +36,44 @@ class PostDetails extends Component {
 
     }
 
+    handleDelete = () => this.setState({confirmOpen: true})
+    handleCancel = () => this.setState({confirmOpen: false})
+
+    handleConfirm = () => {
+
+        API.deletePost(this.state.post.id)
+            .then(res=> this.setState({confirmOpen: false, post: res}))
+    }
+
     render(){
 
-        const {post} = this.state
+        const {post, confirmOpen} = this.state
 
         return(
             <Segment>
-                
-                <Label attached='top' size='large'>
+                <Label attached='top' size='large' color='blue'>
                     {post.title}
+                    <Label.Detail>Posted by <b>{post.author}</b> in {helpers.handleDateTime(post.timestamp)}  </Label.Detail>
                 </Label>
 
                 <p> {post.body}</p>
                 
-                <Button.Group size='tiny'>
-                    <Button animated positive onClick={()=>this.handleVote(1)}>
-                    <Button.Content visible>Upscore</Button.Content>
-                    <Button.Content hidden>
-                        <Icon name='plus'/>
-                    </Button.Content>
-                    </Button>
-                    <Button.Or text={post.voteScore}/> 
-                    <Button animated negative onClick={()=>this.handleVote(-1)}>
-                    <Button.Content visible>DownScore</Button.Content>
-                    <Button.Content hidden>
-                        <Icon name='minus'/>
-                    </Button.Content>
-                    </Button>
-                </Button.Group>
+                <VotePost post={post}/>
 
-                <Label size='large'>
-                    Posted by <b>{post.author}</b> in {helpers.handleDateTime(post.timestamp)}  
-                </Label>
+                <Button size='tiny' color='red' floated='right' onClick={this.handleDelete}>
+                    <Icon name='delete'/> Delete
+                </Button>
 
-                
+                <Button size='tiny' color='blue' floated='right'>
+                    <Icon name='edit'/> Edit
+                </Button>
+               
+                <Confirm 
+                    open={confirmOpen}
+                    onCancel={this.handleCancel}
+                    onConfirm={this.handleConfirm}
+                    content='Are you sure you want to delete this post?'
+                />
             </Segment>
            
         )

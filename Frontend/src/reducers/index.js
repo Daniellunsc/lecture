@@ -1,25 +1,7 @@
-import {
-    SET_CATEGORIES,
-    SET_POSTS,
-} from '../actions'
+import {combineReducers} from 'redux'
+import categoriesReducer from './categoriesReducer'
+import postsReducer from './postsReducer'
+ 
+const rootReducer = combineReducers({categoriesReducer, postsReducer})
 
-const initialState = {
-    categories: [],
-    posts:[]
-}
-
-function lecture(state=initialState, action){
-    console.log(action)
-    switch(action.type){
-        
-        case SET_CATEGORIES:
-            return {...state, categories: action.categories}
-        case SET_POSTS:
-            return {...state, posts: action.posts}
-
-        default:
-            return state
-    }
-}
-
-export default lecture
+export default rootReducer

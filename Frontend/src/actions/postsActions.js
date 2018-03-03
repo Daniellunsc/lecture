@@ -1,13 +1,7 @@
-export const SET_CATEGORIES = 'SET_CATEGORIES'
 export const SET_POSTS = 'SET_POSTS'
 export const ADD_POST = 'ADD_POST'
-
-export const setCategories = (categories) => {
-    return {
-        type: SET_CATEGORIES,
-        categories
-    }
-}
+export const ALTER_POST = 'ALTER_POST'
+export const ERROR_FETCH_POSTS = 'ERROR_FETCH_POSTS'
 
 export const setPosts = (posts) => {
     return {
@@ -16,10 +10,10 @@ export const setPosts = (posts) => {
     }
 }
 
-export const addPost = (post) => {
+export const setPostErrors = (error) => {
     return {
-        type: ADD_POST,
-        post
+        type: ERROR_FETCH_POSTS,
+        error
     }
 }
 
@@ -37,4 +31,10 @@ export const orderPosts = (posts) => (
 
     }
 )
-    
+
+export const alterPost = (post) => {
+    return {
+        type: ALTER_POST,
+        post
+    }
+}

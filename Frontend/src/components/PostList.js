@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import { List, Icon, Label } from 'semantic-ui-react'
+import { List, Icon, Label, Button } from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import * as helpers from '../utils/Helpers'
+import VotePost from './VotePost'
+import * as API from '../utils/API'
 
 class PostList extends Component {
-
-    
 
     componentWillReceiveProps(props){
         console.log(props)
@@ -18,21 +18,22 @@ class PostList extends Component {
         return(
             <List relaxed='very' selection animated divided>
                 {posts.map(post=> (
-                    <List.Item key={post.id} as={Link} name='post' to={`/${post.category}/${post.id}`}>
+                    <List.Item key={post.id}>
                         <Icon name='comments outline' size='large' />
                         <List.Content>
-                            <List.Header>
+                            <List.Header as={Link} name='post' to={`/${post.category}/${post.id}`}>
                             <h3>
                                 {post.title}
                             </h3>    
-                            </List.Header>
+                            </List.Header>              
                                 <List.Description style={{paddingTop:10}}>
+                                    <VotePost post={post}/>
                                     <Label>
-                                     <Icon name='heart' /> {post.voteScore}
+                                     <Icon name='comments' color='blue'/> {post.commentCount}
                                     </Label>
                                     <Label>
                                      Posted by <b>{post.author}</b> in {helpers.handleDateTime(post.timestamp)}  
-                                    </Label>
+                                    </Label>              
                                 </List.Description>
                         </List.Content>
                     </List.Item>
@@ -42,16 +43,10 @@ class PostList extends Component {
     }
 }
 
-function MapStateToProps({posts}){
+function MapStateToProps({postsReducer}){
     return{
-        posts
+        posts: postsReducer.posts
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return{
-        //defineCategories: (categories) => dispatch(setCategories(categories))
-    }  
-}
-
-export default connect(MapStateToProps, mapDispatchToProps)(PostList)
+export default connect(MapStateToProps, null)(PostList)
