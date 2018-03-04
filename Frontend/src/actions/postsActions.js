@@ -17,6 +17,13 @@ export const setPostErrors = (error) => {
     }
 }
 
+export const addPost = (post) => {
+    return{
+        type: ADD_POST,
+        post
+    }
+}
+
 export const orderPosts = (posts) => (
     dispatch => {
 

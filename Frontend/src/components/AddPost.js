@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Button, Icon, Modal, Form} from 'semantic-ui-react'
+import { Button, Icon, Modal, Form, Loader} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import * as API from '../utils/API'
-import {orderPosts} from '../actions/postsActions'
+import {addPost} from '../actions/postsActions'
 
 class AddPost extends Component {
 
@@ -20,26 +20,25 @@ class AddPost extends Component {
   handleClick = () => {
 
       API.MakePost(this.state).then(res=>{
-
-        const {posts, definePosts} = this.props
-
-        posts.push(res)
-
-        definePosts(posts)
+        const {addNewPost} = this.props
+        this.setState({
+          title:'',
+          body: '',
+          author: '',
+          category: 'react'
+        })
 
         this.setState({
           modalOpen: false,
-          title: '',
-          body:'',
-          author:'',
-          category: 'react'
         })
+
+        addNewPost(res) 
       })    
   }
 
   render(){
 
-    const {title, body, author, category} = this.state
+    const {title, body, author, category, loading} = this.state
     const {categories} = this.props
     return(
       <Modal 
@@ -55,6 +54,7 @@ class AddPost extends Component {
       onClose={this.handleClose}
       >
       <Modal.Header>Add a post</Modal.Header>
+
       <Modal.Content>
         <Modal.Description>
           <Form>
@@ -73,6 +73,7 @@ class AddPost extends Component {
           </Form>
         </Modal.Description>
       </Modal.Content>
+
       <Modal.Actions>
         <Button color='green' onClick={this.handleClick}>
           Submit Post
@@ -81,6 +82,7 @@ class AddPost extends Component {
           Cancel
         </Button>
       </Modal.Actions>
+      
     </Modal>
     )
   }
@@ -100,7 +102,7 @@ function MapStateToProps({categoriesReducer, postsReducer}){
 
 function mapDispatchToProps(dispatch) {
   return{
-      definePosts: (posts) => dispatch(orderPosts(posts))
+      addNewPost: (posts) => dispatch(addPost(posts))
   }  
 }
 
