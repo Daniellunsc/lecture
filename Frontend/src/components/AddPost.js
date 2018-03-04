@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { Button, Icon, Modal, Form, Loader} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import * as API from '../utils/API'
+import * as Helpers from '../utils/Helpers'
 import {addPost} from '../actions/postsActions'
 
 class AddPost extends Component {
@@ -19,21 +20,22 @@ class AddPost extends Component {
   handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
   handleClick = () => {
 
-      API.MakePost(this.state).then(res=>{
-        const {addNewPost} = this.props
-        this.setState({
+       API.MakePost(this.state).then(res=>{
+         const {addNewPost} = this.props
+        
+
+         this.setState({
           title:'',
           body: '',
           author: '',
-          category: 'react'
-        })
-
-        this.setState({
           modalOpen: false,
-        })
+         })
 
-        addNewPost(res) 
-      })    
+         if(this.state.category == this.props.actualCategory) {
+            addNewPost(res) 
+         }
+       })    
+
   }
 
   render(){
@@ -67,9 +69,19 @@ class AddPost extends Component {
             <Form.Field>
               <Form.Input fluid label='Author' name='author' value={author} placeholder='Tell us your name or nickname' onChange={this.handleFormEdit}/>
             </Form.Field>
+            {
+            Helpers.isNotEmpty(categories) && 
             <Form.Field>
-              <Form.Select fluid label='Category' name='category' options={categories} value={category} placeholder='Category' onChange={this.handleFormEdit}/>
+              <Form.Select fluid label='Category' name='category' options={
+                categories.map(cat => {
+                  cat.key = cat.name
+                  cat.value = cat.name
+                  cat.text = cat.name
+                  return cat
+                })
+              } value={category} placeholder='Category' onChange={this.handleFormEdit}/>
             </Form.Field>
+            }
           </Form>
         </Modal.Description>
       </Modal.Content>
@@ -91,12 +103,13 @@ class AddPost extends Component {
 function MapStateToProps({categoriesReducer, postsReducer}){
   return{
       categories : categoriesReducer.categories.map(cat => {
-        cat.key = cat.name
-        cat.value = cat.name
-        cat.text = cat.name
-        return cat
+       return {
+         ...cat,
+         key: cat.name,
+         value: cat.name,
+         text: cat.name
+       }
       }),
-      posts: postsReducer.posts,
   }
 }
 

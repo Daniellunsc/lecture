@@ -2,13 +2,15 @@ import {
     SET_POSTS,
     ALTER_POST,
     ERROR_FETCH_POSTS,
-    ADD_POST
+    ADD_POST,
+    SET_POST_ORDER
 } from '../actions/postsActions'
 
 import * as Helpers from '../utils/Helpers'
 
 let initialState = {
-    posts:[]
+    posts:[],
+    postOrder: {}
 }
 
 function postsReducer(state=initialState, action){
@@ -31,6 +33,15 @@ function postsReducer(state=initialState, action){
                     },
                   ...state.posts,                   
                 ]
+            }
+            
+        case SET_POST_ORDER:
+            return{
+                ...state,
+                postOrder:{
+                    type: action.payload.postOrder,
+                    asc: action.payload.asc
+                }
             }
 
         case ERROR_FETCH_POSTS:

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Menu, Label} from 'semantic-ui-react'
+import {Menu, Label, Dimmer, Loader} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import * as API from '../utils/API'
@@ -9,32 +9,56 @@ import {setCategories, setErrorCategories} from '../actions/categoriesActions'
 
 class PageHeader extends Component{
 
-    componentWillMount(){
+    state = {
+        loading: true
+    }
+
+    componentDidMount(){
 
         const {defineCategories, dispatchError} = this.props
 
         API.getCategories()
             .then(categories=> defineCategories(categories))
+            .then(res=> this.setState({loading: false}))
             .catch(err => dispatchError(err))
     }
-
-    render(){
-        console.log(this.props)
-        const {categories, error} = this.props
-        return ( 
-            <Menu>
-                <Link to='/' className='item'>All Posts</Link>
-
-                { !error && categories.map(category => (
+    
+    checkCategories(categories){
+        if(Helpers.isNotEmpty(categories))
+        {
+            return(
+                categories.map(category => (
                     <Link 
                         key={category.path} 
                         to={`/${category.path}`} 
                         className='item'>{Helpers.capitalize(category.name)}</Link>
-                ))} 
+                ))
+            )
+        }
 
+        return null
+    }
+
+    render(){
+        const {loading} = this.state
+        const {categories, error} = this.props
+
+
+
+        return ( 
+
+            !loading ?
+            <Menu>
+                <Link to='/' className='item'>All Posts</Link>
+                {this.checkCategories(categories)}
                 { error && <Label>We can't fetch the categories due to a error.</Label>}
 
             </Menu>
+
+            :
+            <Menu>               
+            </Menu>
+       
         )
     }
 }

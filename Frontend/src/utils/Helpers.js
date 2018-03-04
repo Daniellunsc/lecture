@@ -9,6 +9,16 @@ export function handleDateTime(timestamp=0){
   return `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`    
 }
 
+export function isNotEmpty(array){
+
+  if(Object.keys(array).length > 0){
+    return true;
+  }
+
+  return false
+
+}
+
 {/*
 
   function applyUpdateInState from:

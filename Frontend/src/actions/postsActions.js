@@ -2,6 +2,7 @@ export const SET_POSTS = 'SET_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const ALTER_POST = 'ALTER_POST'
 export const ERROR_FETCH_POSTS = 'ERROR_FETCH_POSTS'
+export const SET_POST_ORDER = 'SET_POST_ORDER'
 
 export const setPosts = (posts) => {
     return {
@@ -24,20 +25,16 @@ export const addPost = (post) => {
     }
 }
 
-export const orderPosts = (posts) => (
-    dispatch => {
-
-        dispatch({
-            type: SET_POSTS,
-            posts: []
-        })
-        dispatch({
-            type: SET_POSTS,
-            posts
-        })
-
+export const setPostOrder = (postOrder, asc) => {
+    return{
+        type: SET_POST_ORDER,
+        payload: {
+            postOrder,
+            asc
+        }
     }
-)
+}
+
 
 export const alterPost = (post) => {
     return {
