@@ -18,7 +18,7 @@ class PageHeader extends Component{
         const {defineCategories, dispatchError} = this.props
 
         API.getCategories()
-            .then(categories=> defineCategories(categories))
+            .then(categories=> categories != {} ? defineCategories(categories) : defineCategories([]))
             .then(res=> this.setState({loading: false}))
             .catch(err => dispatchError(err))
     }
@@ -30,7 +30,7 @@ class PageHeader extends Component{
                 categories.map(category => (
                     <Link 
                         key={category.path} 
-                        to={`/${category.path}`} 
+                        to={`/p/${category.path}`} 
                         className='item'>{Helpers.capitalize(category.name)}</Link>
                 ))
             )
@@ -42,9 +42,7 @@ class PageHeader extends Component{
     render(){
         const {loading} = this.state
         const {categories, error} = this.props
-
-
-
+        
         return ( 
 
             !loading ?

@@ -5,6 +5,7 @@ import PostContainer from './components/PostContainer'
 import {Container} from 'semantic-ui-react'
 import './App.css';
 import {Route, Switch} from 'react-router-dom'
+import AddPost from './components/AddPost';
 
 class App extends Component {
 
@@ -21,9 +22,11 @@ class App extends Component {
               <Route path='/:category/:postID' component={PostDetails} />
           */}
 
+         
           <Route exact path='/' component={PostContainer} />
-          <Route exact path='/:category' component={PostContainer} />
-          <Route exact path='/:category/:postID' component={PostDetails} />
+          <Route exact path='/p/:category' component={PostContainer} />
+          <Route exact path='/p/:category/:postID' component={PostDetails} />
+          <Route exact path='/add' component={AddPost} />
            
           </Switch>
         

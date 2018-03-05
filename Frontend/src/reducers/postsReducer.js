@@ -23,7 +23,7 @@ function postsReducer(state=initialState, action){
             return{
                 ...state, posts: Helpers.applyUpdateInState(action.post, state.posts)
             }
-        
+
         case ADD_POST:
             return{
                 ...state,

@@ -12,7 +12,8 @@ import FilterControl from './FilterControl'
 import PostList from './PostList'
 import NoPosts from './NoPosts'
 import VotePost from './VotePost'
-import { Segment , Label, Divider, List, Icon} from 'semantic-ui-react'
+import { Segment , Label, Divider, List, Icon, Button} from 'semantic-ui-react'
+import AddPostButton from './AddPostButton';
 
 
 class PostContainer extends Component {
@@ -58,8 +59,15 @@ class PostContainer extends Component {
                 .catch(err=> setPostErrors(err))
         }else{
             API.getAllPosts()
-                .then(posts=> posts.sort((a,b) => b.voteScore - a.voteScore))
-                .then(filteredPosts=>setPosts(filteredPosts.filter(post=> post.deleted===false)))
+                .then(posts=> {
+                    console.log('daaaaamn')
+                    return posts.sort((a,b) => b.voteScore - a.voteScore)
+                })
+                .then(filteredPosts=>{
+                    
+                    setPosts(filteredPosts.filter(post=> post.deleted===false
+                    ))
+                })         
                 .then(res=> this.setState({loading: false}))
                 .catch(err=> setPostErrors(err))
         } 
@@ -73,14 +81,7 @@ class PostContainer extends Component {
         let actualcategory = this.checkCategory(this.props)
         return(
             !helpers.isNotEmpty(posts) && !loading?
-            <Segment>
-                <Label color='blue' size='large' attached='top'>
-                    No Posts Found :(
-                </Label> 
-                <Divider hidden></Divider>  
-                <label>Click on the button to add a post!</label>
-                <AddPost actualCategory={actualcategory}/>
-            </Segment>
+            <NoPosts />
             :
             helpers.isNotEmpty(posts) && 
             <Segment raised color='blue'>
@@ -88,7 +89,7 @@ class PostContainer extends Component {
                     Posts 
                 </Label>
 
-                <AddPost actualCategory={actualcategory}/>
+                <Button as={Link} to={'/add'} floated='right' positive size='tiny'>Add Post</Button>
                 <FilterControl />
                 <Divider hidden></Divider>
                 <PostList/>

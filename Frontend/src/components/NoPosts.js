@@ -1,6 +1,7 @@
 import React from 'react'
 import AddPost from '../components/AddPost'
-import {Segment, Label, Divider} from 'semantic-ui-react'
+import {Segment, Label, Divider, Button} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 
 const NoPosts = () => (
     <Segment>
@@ -9,8 +10,9 @@ const NoPosts = () => (
         </Label> 
         <Divider hidden></Divider>  
         <label>Click on the button to add a post!</label>
-        <AddPost />
-     </Segment>
+        <Divider hidden></Divider>
+        <Button as={Link} to={'/add'} fluid positive size='tiny'>Add Post</Button>
+    </Segment>
 )
 
 export default NoPosts
