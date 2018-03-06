@@ -1,12 +1,11 @@
 import React from 'react'
-import AddPost from '../components/AddPost'
 import {Segment, Label, Divider, Button} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 
 const NoPosts = () => (
     <Segment>
         <Label color='blue' size='large' attached='top'>
-            No Posts Found :(
+            No Post Found :(
         </Label> 
         <Divider hidden></Divider>  
         <label>Click on the button to add a post!</label>

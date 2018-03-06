@@ -3,17 +3,15 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
 import * as API from '../utils/API'
-import * as helpers from '../utils/Helpers'
+import * as Helpers from '../utils/Helpers'
 
 import {setPosts, setPostErrors} from '../actions/postsActions'
 
-import AddPost from './AddPost'
+
 import FilterControl from './FilterControl'
 import PostList from './PostList'
 import NoPosts from './NoPosts'
-import VotePost from './VotePost'
-import { Segment , Label, Divider, List, Icon, Button} from 'semantic-ui-react'
-import AddPostButton from './AddPostButton';
+import { Segment , Label, Divider, Button} from 'semantic-ui-react'
 
 
 class PostContainer extends Component {
@@ -24,18 +22,15 @@ class PostContainer extends Component {
 
     componentDidMount(){
         let category = this.checkCategory(this.props)
-        
         this.fetchPosts(category)
     }
 
     componentWillReceiveProps(nextProps){
 
-        const {posts} = this.props
-
         let actualcategory = this.checkCategory(this.props)
         let newcategory = this.checkCategory(nextProps)
 
-        if(actualcategory != newcategory)
+        if(actualcategory !== newcategory)
             this.fetchPosts(newcategory)
     }
 
@@ -55,35 +50,25 @@ class PostContainer extends Component {
             API.getPostByCategory(category)
                 .then(posts=> posts.sort((a,b) => b.voteScore - a.voteScore))
                 .then(filteredPosts=>setPosts(filteredPosts.filter(post=> post.deleted===false)))
-                .then(res=> this.setState({loading: false}))
+                .then(this.setState({loading: false}))
                 .catch(err=> setPostErrors(err))
         }else{
             API.getAllPosts()
-                .then(posts=> {
-                    console.log('daaaaamn')
-                    return posts.sort((a,b) => b.voteScore - a.voteScore)
-                })
-                .then(filteredPosts=>{
-                    
-                    setPosts(filteredPosts.filter(post=> post.deleted===false
-                    ))
-                })         
-                .then(res=> this.setState({loading: false}))
+                .then(posts=> posts.sort((a,b) => b.voteScore - a.voteScore))
+                .then(filteredPosts=>setPosts(filteredPosts.filter(post=> post.deleted===false)))         
+                .then(this.setState({loading: false}))
                 .catch(err=> setPostErrors(err))
         } 
     }
 
     render(){
-
         const {posts} = this.props
         const {loading} = this.state
-
-        let actualcategory = this.checkCategory(this.props)
         return(
-            !helpers.isNotEmpty(posts) && !loading?
+            !Helpers.isNotEmpty(posts) && !loading?
             <NoPosts />
             :
-            helpers.isNotEmpty(posts) && 
+            Helpers.isNotEmpty(posts) && 
             <Segment raised color='blue'>
                 <Label color='blue' size='large' attached='top'>
                     Posts 
@@ -104,13 +89,11 @@ function MapStateToProps({postsReducer}){
     }
 }
 
-
 function mapDispatchToProps(dispatch) {
     return{
         setPosts: (posts) => dispatch(setPosts(posts)),
         setError: (error) => dispatch(setPostErrors(error))
     }  
 }
-
 
 export default connect(MapStateToProps, mapDispatchToProps)(PostContainer)

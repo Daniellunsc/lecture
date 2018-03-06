@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Menu, Label, Dimmer, Loader} from 'semantic-ui-react'
+import {Menu, Label,} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import * as API from '../utils/API'
@@ -14,16 +14,14 @@ class PageHeader extends Component{
     }
 
     componentDidMount(){
-
         const {defineCategories, dispatchError} = this.props
-
         API.getCategories()
-            .then(categories=> categories != {} ? defineCategories(categories) : defineCategories([]))
+            .then(categories=> categories !== {} ? defineCategories(categories) : defineCategories([]))
             .then(res=> this.setState({loading: false}))
             .catch(err => dispatchError(err))
     }
     
-    checkCategories(categories){
+    renderCategories(categories){
         if(Helpers.isNotEmpty(categories))
         {
             return(
@@ -35,28 +33,24 @@ class PageHeader extends Component{
                 ))
             )
         }
-
         return null
     }
 
     render(){
         const {loading} = this.state
         const {categories, error} = this.props
-        
         return ( 
-
             !loading ?
             <Menu>
                 <Link to='/' className='item'>All Posts</Link>
-                {this.checkCategories(categories)}
+                {this.renderCategories(categories)}
                 { error && <Label>We can't fetch the categories due to a error.</Label>}
 
             </Menu>
 
             :
             <Menu>               
-            </Menu>
-       
+            </Menu> 
         )
     }
 }

@@ -21,7 +21,6 @@ class FilterControl extends Component{
         this.setState({[asc]: this.state[asc]*-1}) 
     }
     render(){
-
         return(
             <Button.Group floated='right' size='tiny'>
                 <Button icon labelPosition='left' onClick={()=> this.defineOrder('voteScore', 'filterToggleVote')}>
@@ -36,7 +35,6 @@ class FilterControl extends Component{
         )
     }
 }
-
 
 function mapDispatchToProps(dispatch) {
     return{

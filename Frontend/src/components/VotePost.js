@@ -7,7 +7,6 @@ import {alterPost} from '../actions/postsActions'
 class VotePost extends Component {
 
     handleVote(vote){
-
         const {post, changePostVote} = this.props
         
         let optionString = vote === 1 ? 'upVote' : 'downVote'
@@ -15,8 +14,8 @@ class VotePost extends Component {
         API.votePost(post.id, optionString).then(res=> 
             changePostVote(res)
         )
-
     }
+    
     render(){
         return(
             <Button.Group size='tiny'>

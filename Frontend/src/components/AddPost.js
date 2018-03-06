@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
-import {Segment, Form, Label} from 'semantic-ui-react'
+import {Segment, Form, Label, Icon} from 'semantic-ui-react'
 import * as Helpers from '../utils/Helpers'
 import * as API from '../utils/API'
 import {connect} from 'react-redux'
-import {addPost} from '../actions/postsActions'
 import {Redirect} from 'react-router-dom'
 
 
@@ -18,16 +17,15 @@ class AddPost extends Component {
         newPostID: '',
       }
 
+    componentWillReceiveProps(nextProps){
+      console.log(nextProps)
+    }
+
     handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
     handleSubmit = () => {
-        const {title, body, author, category} = this.state;
-
-        console.log('submit')
-
         API.MakePost(this.state)
           .then(res=>this.setState({newPostID: res.id}))
-          .then(res=>this.setState({fireRedirect:true}))
-        
+          .then(res=>this.setState({fireRedirect:true}))   
     }
 
     render(){
@@ -36,6 +34,7 @@ class AddPost extends Component {
         return(
            <Segment>
                 <Label attached='top' color='blue'>
+                <Icon name='arrow circle left' onClick={()=>this.props.history.goBack()}/>
                     Create new post
                 </Label>
                 <Form onSubmit={this.handleSubmit}>
@@ -65,7 +64,6 @@ class AddPost extends Component {
 }
 
 function MapStateToProps({categoriesReducer, postsReducer}){
-
     return{
         categories : categoriesReducer.categories.map(cat => {
          return {
@@ -78,5 +76,4 @@ function MapStateToProps({categoriesReducer, postsReducer}){
     }
   }
 
-  
   export default connect(MapStateToProps, null)(AddPost)
