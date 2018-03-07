@@ -1,7 +1,7 @@
 import {
     SET_POSTS,
     ALTER_POST,
-    ERROR_FETCH_POSTS,
+    POST_ERRORS,
     ADD_POST,
     SET_POST_ORDER
 } from '../actions/postsActions'
@@ -44,7 +44,7 @@ function postsReducer(state=initialState, action){
                 }
             }
 
-        case ERROR_FETCH_POSTS:
+        case POST_ERRORS:
             return{
                 ...state, postError: action.error
             }

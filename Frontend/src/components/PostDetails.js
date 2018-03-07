@@ -4,7 +4,7 @@ import {Segment, Icon, Label, Button ,Confirm} from 'semantic-ui-react';
 
 import * as Helpers from '../utils/Helpers'
 import * as API from '../utils/API'
-import {addPost, alterPost} from '../actions/postsActions'
+import {addPost, alterPost, setPostErrors} from '../actions/postsActions'
 
 import VotePost from './VotePost'
 
@@ -21,18 +21,22 @@ class PostDetails extends Component{
     }
 
     componentDidMount(){
-        if(Helpers.isNotEmpty(this.props.post))
+
+        const {post, addPostInStore, setPostErrors} = this.props
+        const {postID} = this.props.match.params
+
+        if(Helpers.isNotEmpty(post))
         {
             this.setState({loading:false})
         }else{           
-            API.fetchPost(this.props.match.params.postID)
+            API.fetchPost(postID)
             .then(res=> {
                 if(Helpers.isNotEmpty(res))
-                    this.props.addPostInStore(res)          
+                    addPostInStore(res)          
                 }       
             )
             .then(res=> this.setState({loading:false}))
-            .catch(err=>console.log(err))
+            .catch(err=> setPostErrors(err))
         }          
     }
 
@@ -41,37 +45,38 @@ class PostDetails extends Component{
 
     handleConfirm = () => {
 
-        const {post} = this.props
+        const {post, alterPostInStore, setPostErrors} = this.props
 
-        API.deletePost(post[0].id)
-            .then(res=> this.props.alterPostInStore(res))
+        API.deletePost(post.id)
+            .then(res=> alterPostInStore(res))
             .then(this.setState({confirmOpen: false}))
+            .catch(err=> setPostErrors(err))
     }
 
     renderPost(post){
         const {confirmOpen} = this.state
 
-        return(post.map(postdetail=>(
-            <Segment key={postdetail.id} clearing>
+        return(
+            <Segment key={post.id} clearing>
                  
                  <Label attached='top' size='large' color='blue'>
                      <Icon name='arrow circle left' onClick={()=>this.props.history.goBack()}/>
-                     {postdetail.title}
+                     {post.title}
                  
                      <Label.Detail>
-                         Posted by <b>{postdetail.author}</b> in {Helpers.handleDateTime(postdetail.timestamp)}
+                         Posted by <b>{post.author}</b> in {Helpers.handleDateTime(post.timestamp)}
                      </Label.Detail>
                  </Label>
 
-                 <p>{postdetail.body}</p>
+                 <p>{post.body}</p>
 
-                 <VotePost post={postdetail} />
+                 <VotePost post={post} />
 
                  <Button size='tiny' color='red' floated='right' onClick={this.handleDelete}>
                      <Icon name='delete'/> Delete
                  </Button>
 
-                 <Button as={Link} to={`/e/${postdetail.id}`}size='tiny' color='blue' floated='right'>
+                 <Button as={Link} to={`/e/${post.id}`}size='tiny' color='blue' floated='right'>
                      <Icon name='edit'/> Edit
                  </Button>
 
@@ -81,8 +86,8 @@ class PostDetails extends Component{
                      onConfirm={this.handleConfirm}
                      content='Are you sure you want to delete this post?'
                  />
-            </Segment>)
-        ))
+            </Segment>
+        )
     }
 
 
@@ -100,8 +105,7 @@ class PostDetails extends Component{
 function mapStateToProps({postsReducer}, props){
 
     const post = postsReducer.posts
-                .filter(post=> post.id === props.match.params.postID)
-                .filter(post=> post.deleted === false)
+                    .find(post => post.id === props.match.params.postID && post.deleted === false)
     return{
         post,
     }
@@ -110,7 +114,8 @@ function mapStateToProps({postsReducer}, props){
 function mapDispatchToProps(dispatch){
     return{
         alterPostInStore: (post)=> dispatch(alterPost(post)),
-        addPostInStore: (post)=>dispatch(addPost(post))
+        addPostInStore: (post)=>dispatch(addPost(post)),
+        setErrors: (postError)=>dispatch(setPostErrors(postError))
     }
 }
 

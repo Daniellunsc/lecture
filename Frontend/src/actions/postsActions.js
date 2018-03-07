@@ -1,7 +1,7 @@
 export const SET_POSTS = 'SET_POSTS'
 export const ADD_POST = 'ADD_POST'
 export const ALTER_POST = 'ALTER_POST'
-export const ERROR_FETCH_POSTS = 'ERROR_FETCH_POSTS'
+export const POST_ERRORS = 'POST_ERRORS'
 export const SET_POST_ORDER = 'SET_POST_ORDER'
 
 export const setPosts = (posts) => {
@@ -13,7 +13,7 @@ export const setPosts = (posts) => {
 
 export const setPostErrors = (error) => {
     return {
-        type: ERROR_FETCH_POSTS,
+        type: POST_ERRORS,
         error
     }
 }
@@ -34,7 +34,6 @@ export const setPostOrder = (postOrder, asc) => {
         }
     }
 }
-
 
 export const alterPost = (post) => {
     return {

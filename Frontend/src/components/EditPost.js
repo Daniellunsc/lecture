@@ -16,7 +16,7 @@ class EditPost extends Component {
         loading: true
     }
 
-    componentWillMount(){
+    componentDidMount(){
         if(!Helpers.isNotEmpty(this.props.post)){
             API.fetchPost(this.props.match.params.postID)
             .then(res=> {
@@ -39,10 +39,10 @@ class EditPost extends Component {
 
     definePostState(props){
         this.setState({
-            id: props.post[0].id,
-            title: props.post[0].title,
-            body: props.post[0].body,
-            category: props.post[0].category,
+            id: props.post.id,
+            title: props.post.title,
+            body: props.post.body,
+            category: props.post.category,
             loading: false
         })
     }
@@ -85,7 +85,7 @@ class EditPost extends Component {
 }
 
 function mapStateToProps({postsReducer}, props){
-    const post = postsReducer.posts.filter(post=> post.id===props.match.params.postID)
+    const post = postsReducer.posts.find(post=> post.id===props.match.params.postID)
     return{
         post
     }

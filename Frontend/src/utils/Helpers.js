@@ -10,11 +10,16 @@ export function handleDateTime(timestamp=0){
 }
 
 export function isNotEmpty(array){
-  if(Object.keys(array).length > 0){
-    return true;
-  }
-  return false
 
+  if(array===undefined){
+    return false
+  }
+
+  if(!Object.keys(array).length > 0){
+    return false
+  }
+  
+  return true;
 }
 
 {/*
