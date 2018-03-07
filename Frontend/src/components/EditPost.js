@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Segment, Form, Label, Icon} from 'semantic-ui-react';
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import {addPost, alterPost} from '../actions/postsActions'
+import {addPost, alterPost, setPostErrors} from '../actions/postsActions'
 import * as API from '../utils/API'
 import * as Helpers from '../utils/Helpers';
 
@@ -24,8 +24,7 @@ class EditPost extends Component {
                     this.props.addPostInStore(res)      
                 }       
             )
-            .then(console.log(this.state))
-            .catch(err=>console.log(err))
+            .catch(err=>this.props.setErrors(err))
         }else{
             this.definePostState(this.props)
         }
@@ -52,7 +51,8 @@ class EditPost extends Component {
     handleSubmit = () => {
         API.editPost(this.state)
             .then(res=> this.props.alterPostInStore(res))
-            .then(this.setState({fireRedirect: true}))      
+            .then(this.setState({fireRedirect: true}))
+            .catch(err=>this.props.setErrors(err))      
     }
 
     render(){
@@ -94,7 +94,8 @@ function mapStateToProps({postsReducer}, props){
 function mapDispatchToProps(dispatch){
     return{
         addPostInStore: (post)=>dispatch(addPost(post)),
-        alterPostInStore: (post)=>dispatch(alterPost(post))
+        alterPostInStore: (post)=>dispatch(alterPost(post)),
+        setErrors: (postError)=>dispatch(setPostErrors(postError))
     }
 }
 

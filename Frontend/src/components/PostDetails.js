@@ -10,6 +10,7 @@ import VotePost from './VotePost'
 
 import {Link} from 'react-router-dom'
 import NoPosts from './NoPosts';
+import Comments from './Comments';
 
 class PostDetails extends Component{
 
@@ -28,6 +29,9 @@ class PostDetails extends Component{
         if(Helpers.isNotEmpty(post))
         {
             this.setState({loading:false})
+            API.fetchComments(post.id)
+            .then(res=>console.log(res))
+            
         }else{           
             API.fetchPost(postID)
             .then(res=> {
@@ -72,6 +76,11 @@ class PostDetails extends Component{
 
                  <VotePost post={post} />
 
+                 <Label size='large' color='blue'>
+                    <Icon name='comments' />
+                    <Label.Detail>{post.commentCount}</Label.Detail>
+                </Label>
+
                  <Button size='tiny' color='red' floated='right' onClick={this.handleDelete}>
                      <Icon name='delete'/> Delete
                  </Button>
@@ -86,6 +95,8 @@ class PostDetails extends Component{
                      onConfirm={this.handleConfirm}
                      content='Are you sure you want to delete this post?'
                  />
+
+                <Comments />
             </Segment>
         )
     }

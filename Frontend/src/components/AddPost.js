@@ -17,10 +17,6 @@ class AddPost extends Component {
         newPostID: '',
       }
 
-    componentWillReceiveProps(nextProps){
-      console.log(nextProps)
-    }
-
     handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
     handleSubmit = () => {
         API.MakePost(this.state)
