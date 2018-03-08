@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Segment, Icon, Label, Button ,Confirm} from 'semantic-ui-react';
+import { Segment, Icon, Label, Button, Confirm, Divider } from 'semantic-ui-react';
 
 import * as Helpers from '../utils/Helpers'
 import * as API from '../utils/API'
@@ -94,13 +94,13 @@ class PostDetails extends Component{
                  <Label size='large' color='blue'>
                     <Icon name='comments' />
                     <Label.Detail>{post.commentCount}</Label.Detail>
-                </Label>
+                 </Label>
 
                  <Button size='tiny' color='red' floated='right' onClick={this.handleDelete}>
                      <Icon name='delete'/> Delete
                  </Button>
 
-                 <Button as={Link} to={`/e/${post.id}`}size='tiny' color='blue' floated='right'>
+                 <Button as={Link} to={`/e/${post.id}`} size='tiny' color='blue' floated='right'>
                      <Icon name='edit'/> Edit
                  </Button>
 
@@ -110,7 +110,7 @@ class PostDetails extends Component{
                      onConfirm={this.handleConfirm}
                      content='Are you sure you want to delete this post?'
                  />
-
+                <Divider />
                 <Comments postID={post.id}/>
             </Segment>
         )

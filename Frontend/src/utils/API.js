@@ -103,3 +103,14 @@ export const makeComment = ({parentId,author,body}) => {
         body: JSON.stringify({id, parentId, author, body, timestamp})
     }).then(res=> res.json())
 }
+
+export const voteComment = (commentID, option) => {
+    return fetch(`${api}/comments/${commentID}`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({option})
+    }).then(res=> res.json())
+}

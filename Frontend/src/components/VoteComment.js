@@ -2,18 +2,18 @@ import React, {Component} from 'react'
 import {Button,Icon} from 'semantic-ui-react'
 import * as API from '../utils/API'
 import {connect} from 'react-redux'
-import {alterPost} from '../actions/postsActions'
+import {alterComment} from '../actions/commentsActions'
 import VoteControl from './VoteControl'
 
-class VotePost extends Component {
+class VoteComment extends Component {
 
     handleVote(vote){
-        const {post, changePostVote} = this.props
+        const {post, changeCommentVote} = this.props
         
         let optionString = vote === 1 ? 'upVote' : 'downVote'
 
-        API.votePost(post.id, optionString).then(res=> 
-            changePostVote(res)
+        API.voteComment(post.id, optionString).then(res=> 
+            changeCommentVote(res)
         )
     }
     
@@ -26,8 +26,8 @@ class VotePost extends Component {
 
 function mapDispatchToProps(dispatch){
     return{
-        changePostVote: (post) => dispatch(alterPost(post))
+        changeCommentVote: (comment) => dispatch(alterComment(comment))
     }
 }
 
-export default connect(null, mapDispatchToProps)(VotePost)
+export default connect(null, mapDispatchToProps)(VoteComment)

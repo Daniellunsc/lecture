@@ -1,7 +1,7 @@
 
 import * as Helpers from '../utils/Helpers'
 
-import {SET_COMMENTS, ADD_COMMENT} from '../actions/commentsActions'
+import {SET_COMMENTS, ADD_COMMENT, ALTER_COMMENT} from '../actions/commentsActions'
 
 let initialState = {
     comments: []
@@ -14,6 +14,11 @@ function commentsReducer(state=initialState, action){
             return {
                 ...state,
                 comments: action.comments
+            }
+
+        case ALTER_COMMENT:
+            return{
+                ...state, comments: Helpers.applyUpdateInState(action.comment, state.comments)
             }
         
         case ADD_COMMENT:

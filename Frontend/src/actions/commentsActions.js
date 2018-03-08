@@ -1,6 +1,7 @@
 export const SET_COMMENTS = 'SET_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const ALTER_COMMENT_COUNT = 'ALTER_COMMENT_COUNT'
+export const ALTER_COMMENT = 'ALTER_COMMENT'
 
 export const setcomments = (comments) => {
     return{
@@ -14,6 +15,13 @@ export const alterCommentCount = (post_id, value) => {
         type: ALTER_COMMENT_COUNT,
         post_id,
         value,
+    }
+}
+
+export const alterComment = (comment) => {
+    return{
+        type: ALTER_COMMENT,
+        comment
     }
 }
 
