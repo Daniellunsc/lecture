@@ -5,6 +5,7 @@ import {Segment, Icon, Label, Button ,Confirm} from 'semantic-ui-react';
 import * as Helpers from '../utils/Helpers'
 import * as API from '../utils/API'
 import {addPost, alterPost, setPostErrors} from '../actions/postsActions'
+import {setcomments} from '../actions/commentsActions'
 
 import VotePost from './VotePost'
 
@@ -23,14 +24,13 @@ class PostDetails extends Component{
 
     componentDidMount(){
 
-        const {post, addPostInStore, setPostErrors} = this.props
+        const {post, addPostInStore, setPostErrors, addCommentsToStore} = this.props
         const {postID} = this.props.match.params
 
         if(Helpers.isNotEmpty(post))
         {
             this.setState({loading:false})
-            API.fetchComments(post.id)
-            .then(res=>console.log(res))
+            this.getComments()
             
         }else{           
             API.fetchPost(postID)
@@ -39,13 +39,28 @@ class PostDetails extends Component{
                     addPostInStore(res)          
                 }       
             )
-            .then(res=> this.setState({loading:false}))
+            .then(this.getComments())
+            .then(res=> this.setState({loading:false}))     
             .catch(err=> setPostErrors(err))
         }          
     }
 
     handleDelete = () => this.setState({confirmOpen: true})
     handleCancel = () => this.setState({confirmOpen: false})
+    getComments(){
+
+        const {postID} = this.props.match.params
+        const {addCommentsToStore} = this.props
+        API.fetchComments(postID)
+        .then(res=> {
+            if(Helpers.isNotEmpty(res))
+            {
+                addCommentsToStore(res)
+            }else{
+                addCommentsToStore([])
+            }   
+        })
+    }
 
     handleConfirm = () => {
 
@@ -96,7 +111,7 @@ class PostDetails extends Component{
                      content='Are you sure you want to delete this post?'
                  />
 
-                <Comments />
+                <Comments postID={post.id}/>
             </Segment>
         )
     }
@@ -126,7 +141,8 @@ function mapDispatchToProps(dispatch){
     return{
         alterPostInStore: (post)=> dispatch(alterPost(post)),
         addPostInStore: (post)=>dispatch(addPost(post)),
-        setErrors: (postError)=>dispatch(setPostErrors(postError))
+        setErrors: (postError)=>dispatch(setPostErrors(postError)),
+        addCommentsToStore: (comments)=>dispatch(setcomments(comments)),
     }
 }
 

@@ -1,78 +1,66 @@
 import React, {Component} from 'react'
 import {Segment, Comment, Form, Header, Button} from 'semantic-ui-react'
+import {connect} from 'react-redux'
+import * as Helpers from '../utils/Helpers'
+import AddComment from './AddComment'
 
 class Comments extends Component {
+
+    state = {
+        loading: true
+    }
+
+    componentDidMount(){
+
+        const {comments} = this.props
+
+        if(Helpers.isNotEmpty(comments)){
+            this.setState({loading: false})
+        }else{
+            this.setState({loading: false})
+        }
+    }
+
     render(){
+        console.log(this.props)
+        const {comments, postID} = this.props
+        const {loading} = this.state
+
         return(
-        <Segment>
+        <Segment loading={loading}>
         <Comment.Group>
-        <Comment>
-        <Comment.Content>
-            <Comment.Author as='a'>Matt</Comment.Author>
-            <Comment.Metadata>
-            <div>Today at 5:42PM</div>
-            </Comment.Metadata>
-            <Comment.Text>How artistic!</Comment.Text>
-            <Comment.Actions>
-            <Comment.Action>Reply</Comment.Action>
-            </Comment.Actions>
-        </Comment.Content>
-        </Comment>
-
-        <Comment>
-        <Comment.Content>
-            <Comment.Author as='a'>Elliot Fu</Comment.Author>
-            <Comment.Metadata>
-            <div>Yesterday at 12:30AM</div>
-            </Comment.Metadata>
-            <Comment.Text>
-            <p>This has been very useful for my research. Thanks as well!</p>
-            </Comment.Text>
-            <Comment.Actions>
-            <Comment.Action>Reply</Comment.Action>
-            </Comment.Actions>
-        </Comment.Content>
-        <Comment.Group>
-            <Comment>
-            <Comment.Content>
-                <Comment.Author as='a'>Jenny Hess</Comment.Author>
-                <Comment.Metadata>
-                <div>Just now</div>
-                </Comment.Metadata>
-                <Comment.Text>
-                Elliot you are always so right :)
-                </Comment.Text>
-                <Comment.Actions>
-                <Comment.Action>Reply</Comment.Action>
-                </Comment.Actions>
-            </Comment.Content>
-            </Comment>
+        {
+            Helpers.isNotEmpty(comments) ? 
+                comments.map(comment => (
+                    
+                    <Comment key={comment.id}>
+                    <Comment.Content>
+                        <Comment.Author as='a'>{comment.author}</Comment.Author>
+                        <Comment.Metadata>
+                        <div>at {Helpers.handleDateTime(comment.timestamp)}</div>
+                        </Comment.Metadata>
+                        <Comment.Text>{comment.body}</Comment.Text>
+                        <Comment.Actions>
+                        <Comment.Action>Reply</Comment.Action>
+                        </Comment.Actions>
+                    </Comment.Content>
+                    </Comment>
+                    
+                ))
+            :
+            <div>No Comments Found :(</div>
+        }
+        <AddComment postID={postID}/>
         </Comment.Group>
-        </Comment>
-
-        <Comment>
-        <Comment.Content>
-            <Comment.Author as='a'>Joe Henderson</Comment.Author>
-            <Comment.Metadata>
-            <div>5 days ago</div>
-            </Comment.Metadata>
-            <Comment.Text>
-            Dude, this is awesome. Thanks so much
-            </Comment.Text>
-            <Comment.Actions>
-            <Comment.Action>Reply</Comment.Action>
-            </Comment.Actions>
-        </Comment.Content>
-        </Comment>
-
-        <Form reply>
-        <Form.TextArea />
-        <Button content='Add Reply' labelPosition='left' icon='edit' primary />
-        </Form>
-    </Comment.Group>
         </Segment>
         )
     }
 }
 
-export default Comments
+function mapStateToProps({commentsReducer}){
+    return{
+        comments: commentsReducer.comments
+    }
+}
+
+export default connect(mapStateToProps, null)(Comments)

@@ -78,5 +78,28 @@ export const deletePost = (postID) => {
 
 export const fetchComments = (postID) => {
     return fetch(`${api}/posts/${postID}/comments/`, {headers})
-        .then(res=>res.json())
+    .then(res=>res.json())
+}
+
+export const makeComment = ({parentId,author,body}) => {
+
+    console.log(parentId)
+    console.log(author)
+    console.log(body)
+    let timestamp = Date.now()
+
+    let id =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    {/*
+        CODE FROM GIST: https://gist.github.com/6174/6062387
+    */}
+   
+
+    return fetch(`${api}/comments`, {
+        method: 'POST',
+        headers: {
+            ...headers,
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({id, parentId, author, body, timestamp})
+    }).then(res=> res.json())
 }
