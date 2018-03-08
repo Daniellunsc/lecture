@@ -10,6 +10,18 @@ class FormComment extends Component{
 
   handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
 
+  handleSubmit(){
+
+    this.setState({
+      body: '',
+      author: ''
+    })
+
+    this.props.onSubmit(this.state)
+
+    
+  }
+
   render(){
 
     const {body, author} = this.state
@@ -17,7 +29,7 @@ class FormComment extends Component{
     return(
       <Segment>
       <Header>Add a comment!</Header>
-      <Form onSubmit={() => this.props.onSubmit(this.state)}>
+      <Form onSubmit={this.handleSubmit.bind(this)}>
         <Form.Field>
           <Form.Input required name='author' placeholder='Author' value={author} onChange={this.handleFormEdit}/>
         </Form.Field>

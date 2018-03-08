@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import FormComment from './FormComment'
 import * as API from '../utils/API'
+import {connect} from 'react-redux'
+import {AddCommentToStore} from '../actions/commentsActions'
  
 class AddComment extends Component{
 
@@ -11,7 +13,7 @@ class AddComment extends Component{
     API.makeComment({
       parentId: this.props.postID,
       ...value
-    }).then(res=>console.log(res))
+    }).then(res=>this.props.addCommentToStore(res, this.props.postID, 1))
   }
 
   render(){
@@ -22,4 +24,10 @@ class AddComment extends Component{
   }
 }
 
-export default AddComment
+function mapDispatchToProps(dispatch){
+  return{
+    addCommentToStore: (comment, postid, value) => dispatch(AddCommentToStore(comment, postid, value))
+  }
+}
+
+  export default connect(null, mapDispatchToProps)(AddComment)

@@ -1,7 +1,7 @@
 
 import * as Helpers from '../utils/Helpers'
 
-import {SET_COMMENTS} from '../actions/commentsActions'
+import {SET_COMMENTS, ADD_COMMENT} from '../actions/commentsActions'
 
 let initialState = {
     comments: []
@@ -14,6 +14,19 @@ function commentsReducer(state=initialState, action){
             return {
                 ...state,
                 comments: action.comments
+            }
+        
+        case ADD_COMMENT:
+            return {
+                ...state,
+                comments: [
+                    {
+                    ...action.comment
+                    },
+                    ...state.comments
+                ]
+                
+                
             }
 
         default:

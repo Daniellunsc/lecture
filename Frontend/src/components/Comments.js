@@ -58,8 +58,13 @@ class Comments extends Component {
 }
 
 function mapStateToProps({commentsReducer}){
+
+    let comments = commentsReducer.comments.sort(function(a,b){
+        return b.timestamp - a.timestamp
+    })
+    
     return{
-        comments: commentsReducer.comments
+        comments,
     }
 }
 

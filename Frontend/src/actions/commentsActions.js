@@ -1,4 +1,6 @@
 export const SET_COMMENTS = 'SET_COMMENTS'
+export const ADD_COMMENT = 'ADD_COMMENT'
+export const ALTER_COMMENT_COUNT = 'ALTER_COMMENT_COUNT'
 
 export const setcomments = (comments) => {
     return{
@@ -6,3 +8,23 @@ export const setcomments = (comments) => {
         comments
     }
 }
+
+export const alterCommentCount = (post_id, value) => {
+    return{
+        type: ALTER_COMMENT_COUNT,
+        post_id,
+        value,
+    }
+}
+
+export const addComment = (comment) => {
+    return{
+            type: ADD_COMMENT,
+            comment
+    }
+}
+
+export const AddCommentToStore = (comment, post_id, value) => dispatch => (
+    dispatch(addComment(comment)),
+    dispatch(alterCommentCount(post_id, value))
+)
