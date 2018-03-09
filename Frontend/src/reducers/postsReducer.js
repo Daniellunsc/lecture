@@ -6,10 +6,6 @@ import {
     SET_POST_ORDER
 } from '../actions/postsActions'
 
-import{
-    ALTER_COMMENT_COUNT
-} from '../actions/commentsActions'
-
 import * as Helpers from '../utils/Helpers'
 
 let initialState = {
@@ -46,17 +42,6 @@ function postsReducer(state=initialState, action){
                     type: action.payload.postOrder,
                     asc: action.payload.asc
                 }
-            }
-
-        case ALTER_COMMENT_COUNT:
-
-            let postTarget = state.posts.find(post=>post.id == action.post_id)
-
-            return{
-                ...state, posts: Helpers.applyUpdateInState({
-                    ...postTarget,
-                    commentCount: postTarget.commentCount + action.value
-                }, state.posts)
             }
 
         case POST_ERRORS:

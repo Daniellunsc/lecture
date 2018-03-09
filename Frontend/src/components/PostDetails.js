@@ -42,7 +42,9 @@ class PostDetails extends Component{
             .then(this.getComments())
             .then(res=> this.setState({loading:false}))     
             .catch(err=> setPostErrors(err))
-        }          
+        }        
+        
+        console.log(this.props)
     }
 
     handleDelete = () => this.setState({confirmOpen: true})
@@ -93,14 +95,14 @@ class PostDetails extends Component{
 
                  <Label size='large' color='blue'>
                     <Icon name='comments' />
-                    <Label.Detail>{post.commentCount}</Label.Detail>
+                    <Label.Detail>{this.props.comments.length}</Label.Detail>
                  </Label>
 
-                 <Button size='tiny' color='red' floated='right' onClick={this.handleDelete}>
+                 <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={this.handleDelete}>
                      <Icon name='delete'/> Delete
                  </Button>
 
-                 <Button as={Link} to={`/e/${post.id}`} size='tiny' color='blue' floated='right'>
+                 <Button icon labelPosition='left'  as={Link} to={`/e/${post.id}`} size='tiny' color='blue' floated='right'>
                      <Icon name='edit'/> Edit
                  </Button>
 
@@ -128,12 +130,17 @@ class PostDetails extends Component{
     }
 }
 
-function mapStateToProps({postsReducer}, props){
+function mapStateToProps({postsReducer, commentsReducer}, props){
 
     const post = postsReducer.posts
                     .find(post => post.id === props.match.params.postID && post.deleted === false)
+
+    const comments = commentsReducer.comments
+                    .filter(comment=> comment.deleted==false)
+
     return{
         post,
+        comments,
     }
 }
 

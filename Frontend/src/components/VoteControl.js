@@ -4,31 +4,24 @@ import * as API from '../utils/API'
 import {connect} from 'react-redux'
 import {alterPost} from '../actions/postsActions'
 
-class VoteControl extends Component {
-
-   
-    
-    render(){
+const VoteControl = ({handleVote, voteScore}) => {
         return(
             <Button.Group size='tiny'>
-                <Button animated positive onClick={()=>this.props.handleVote(1)}>
+                <Button animated positive onClick={()=>handleVote(1)}>
                 <Button.Content visible>Upscore</Button.Content>
                 <Button.Content hidden>
                     <Icon name='plus'/>
                 </Button.Content>
                 </Button>
-                <Button.Or text={this.props.voteScore}/> 
-                <Button animated negative onClick={()=>this.props.handleVote(-1)}>
+                <Button.Or text={voteScore}/> 
+                <Button animated negative onClick={()=>handleVote(-1)}>
                 <Button.Content visible>DownScore</Button.Content>
                 <Button.Content hidden>
                     <Icon name='minus'/>
                 </Button.Content>
                 </Button>
             </Button.Group>
-        )
-    }
+     )
 }
-
-
 
 export default VoteControl

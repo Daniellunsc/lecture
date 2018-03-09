@@ -30,8 +30,7 @@ function commentsReducer(state=initialState, action){
                     },
                     ...state.comments
                 ]
-                
-                
+                 
             }
 
         default:
