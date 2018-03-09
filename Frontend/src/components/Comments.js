@@ -13,7 +13,8 @@ class Comments extends Component {
 
     state = {
         loading: true,
-        confirmOpen: false
+        confirmOpen: false,
+        selectedComment: ''
     }
 
     componentDidMount(){
@@ -27,17 +28,19 @@ class Comments extends Component {
         }
     }
 
-    handleDelete = () => this.setState({confirmOpen: true})
+    handleDelete = (comment) => this.setState({confirmOpen: true, selectedComment: comment})
     handleCancel = () => this.setState({confirmOpen: false})
     handleConfirm = (commentID) => {
 
-        API.deleteComment(commentID)
-            .then(res=> this.props.removeFromStore(res))
-            .then(this.setState({confirmOpen: false}))
+        const {selectedComment} = this.state
+
+         API.deleteComment(selectedComment)
+             .then(res=> this.props.removeFromStore(res))
+             .then(this.setState({confirmOpen: false}))
     }
 
     render(){
-        console.log(this.props)
+        console.log(this.state)
         const {comments, postID} = this.props
         const {loading, confirmOpen} = this.state
 
@@ -61,7 +64,7 @@ class Comments extends Component {
 
                        <VoteComment post={comment}/>
 
-                        <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={this.handleDelete}>
+                        <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={()=>this.handleDelete(comment.id)}>
                             <Icon name='delete' attached='right'/> 
                             Delete
                         </Button>
@@ -69,7 +72,7 @@ class Comments extends Component {
                         <Confirm 
                         open={confirmOpen}
                         onCancel={this.handleCancel}
-                        onConfirm={()=>this.handleConfirm(comment.id)}
+                        onConfirm={this.handleConfirm}
                         content='Are you sure you want to delete this comment?'
                         />
                     </Segment>   
