@@ -23,10 +23,7 @@ class Comments extends Component {
         const {comments, editing} = this.props
 
         if(Helpers.isNotEmpty(comments)){
-            this.setState({loading: false})
-
-            
-            
+            this.setState({loading: false})     
         }else{
             this.setState({loading: false})
         }
@@ -57,14 +54,12 @@ class Comments extends Component {
     
         this.setState({
             body: '',
-          })
-      
+        })    
       }
 
     handleConfirm = (commentID) => {
 
         const {selectedComment} = this.state
-
          API.deleteComment(selectedComment)
              .then(res=> this.props.alterCommentInStore(res))
              .then(this.setState({confirmOpen: false}))
@@ -146,8 +141,7 @@ function mapStateToProps({commentsReducer}){
                     .filter(comment => comment.deleted == false)
                     .sort(function(a,b){
                         return b.timestamp - a.timestamp
-                    })
-    
+                    })   
     return{
         comments,
         editing: commentsReducer.editingID

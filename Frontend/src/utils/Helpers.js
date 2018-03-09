@@ -21,29 +21,3 @@ export function isNotEmpty(array){
   
   return true;
 }
-
-{/*
-
-  function applyUpdateInState from:
-  https://github.com/ryanwaite28/udacity-readable/blob/master/frontend/src/utils/helperMethods.js
-
-*/}
-
-export function applyUpdateInState(updatedComponent, list) {
-  let isNewComponent = true;
-  let updatedList = list;
-  if(updatedComponent && list) {
-    updatedList = [].concat(list).map((component) => {
-
-      if(updatedComponent.id===component.id) { 
-        isNewComponent = false;
-        return updatedComponent;
-      } else {
-        return component;
-      }
-    });
-    
-    if(isNewComponent) updatedList.push(updatedComponent);
-  }
-  return updatedList;
-}

@@ -20,8 +20,16 @@ function postsReducer(state=initialState, action){
             return {...state, posts: action.posts}
 
         case ALTER_POST:
+
+            let posts = state.posts.filter(post=> post.id !== action.post.id)
+
             return{
-                ...state, posts: Helpers.applyUpdateInState(action.post, state.posts)
+                ...state, posts: [
+                    ...posts,
+                    {
+                        ...action.post
+                    }
+                ]
             }
 
         case ADD_POST:

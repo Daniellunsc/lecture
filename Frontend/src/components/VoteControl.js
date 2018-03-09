@@ -1,6 +1,5 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Button,Icon} from 'semantic-ui-react'
-import * as API from '../utils/API'
 import {connect} from 'react-redux'
 import {alterPost} from '../actions/postsActions'
 

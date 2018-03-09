@@ -18,8 +18,16 @@ function commentsReducer(state=initialState, action){
             }
 
         case ALTER_COMMENT:
+
+            let comments = state.comments.filter(comment=> comment.id !== action.comment.id)
+
             return{
-                ...state, comments: Helpers.applyUpdateInState(action.comment, state.comments)
+                ...state, comments: [
+                    ...comments,
+                    {
+                        ...action.comment
+                    }
+                ]
             }
 
         case SET_EDITING_ID:
