@@ -7,42 +7,72 @@ import {Link} from 'react-router-dom'
 import VotePost from './VotePost';
 import VoteComment from './VoteComment';
 import * as API from '../utils/API'
-import {alterComment} from '../actions/commentsActions'
+import {alterComment, markAsEditing} from '../actions/commentsActions'
 
 class Comments extends Component {
 
     state = {
         loading: true,
         confirmOpen: false,
-        selectedComment: ''
+        selectedComment: '',
+        body: ''
     }
 
     componentDidMount(){
 
-        const {comments} = this.props
+        const {comments, editing} = this.props
 
         if(Helpers.isNotEmpty(comments)){
             this.setState({loading: false})
+
+            
+            
         }else{
             this.setState({loading: false})
         }
     }
 
+    componentWillReceiveProps(nextProps){
+
+        const {comments, editing} = nextProps
+        let postToControl = comments.find(comment=> comment.id==editing)
+
+        if(postToControl){
+            this.setState({body: postToControl.body})
+        }
+    }
+
     handleDelete = (comment) => this.setState({confirmOpen: true, selectedComment: comment})
     handleCancel = () => this.setState({confirmOpen: false})
+    handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
+
+    handleSubmitEdit(){
+
+        const {editing} = this.props
+        const { body } = this.state
+        
+        API.editComment(editing, body)
+            .then(res=> this.props.alterCommentInStore(res))
+            .then(this.props.markEditing(''))
+    
+        this.setState({
+            body: '',
+          })
+      
+      }
+
     handleConfirm = (commentID) => {
 
         const {selectedComment} = this.state
 
          API.deleteComment(selectedComment)
-             .then(res=> this.props.removeFromStore(res))
+             .then(res=> this.props.alterCommentInStore(res))
              .then(this.setState({confirmOpen: false}))
     }
 
     render(){
-        console.log(this.state)
-        const {comments, postID} = this.props
-        const {loading, confirmOpen} = this.state
+        const {comments, postID, editing} = this.props
+        const {loading, confirmOpen, body} = this.state
 
         return(
         <Comment.Group>
@@ -60,21 +90,43 @@ class Comments extends Component {
                             <Label.Detail>at {Helpers.handleDateTime(comment.timestamp)}</Label.Detail>          
                        </Label>
 
-                       <p>{comment.body}</p>
+                       
 
-                       <VoteComment post={comment}/>
+                       {editing === comment.id ?
 
-                        <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={()=>this.handleDelete(comment.id)}>
-                            <Icon name='delete' attached='right'/> 
-                            Delete
-                        </Button>
+                            <Form onSubmit={()=>this.handleSubmitEdit()}>
+                            <Form.Field>
+                            <Form.Input required name='body' placeholder='Comment' value={body} onChange={this.handleFormEdit}/>
+                            </Form.Field>
+                            <Button content='Edit Comment' labelPosition='left' icon='edit' primary />
+                            <Button content='Cancel' labelPosition='left' icon='delete' onClick={()=>this.props.markEditing('')}/>
+                            </Form>
 
-                        <Confirm 
-                        open={confirmOpen}
-                        onCancel={this.handleCancel}
-                        onConfirm={this.handleConfirm}
-                        content='Are you sure you want to delete this comment?'
-                        />
+                        :
+                            <div>
+                            <p>{comment.body}</p>
+                            <VoteComment post={comment}/>
+
+                            <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={()=>this.handleDelete(comment.id)}>
+                                <Icon name='delete' attached='right'/> 
+                                Delete
+                            </Button>
+
+                            <Button icon labelPosition='left' size='tiny' color='blue' floated='right' onClick={()=>this.props.markEditing(comment.id)}>
+                                <Icon name='edit' attached='right'/> 
+                                Edit
+                            </Button>
+
+                            <Confirm 
+                            open={confirmOpen}
+                            onCancel={this.handleCancel}
+                            onConfirm={this.handleConfirm}
+                            content='Are you sure you want to delete this comment?'
+                            />
+                            </div>
+                        }
+
+                      
                     </Segment>   
                       
                 ))          
@@ -98,12 +150,14 @@ function mapStateToProps({commentsReducer}){
     
     return{
         comments,
+        editing: commentsReducer.editingID
     }
 }
 
 function mapDispatchToProps(dispatch){
     return{
-        removeFromStore: (comment)=> dispatch(alterComment(comment))
+        alterCommentInStore: (comment)=> dispatch(alterComment(comment)),
+        markEditing: (commentID)=> dispatch(markAsEditing(commentID))
     }
 }
 

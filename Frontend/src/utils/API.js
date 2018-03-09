@@ -83,9 +83,6 @@ export const fetchComments = (postID) => {
 
 export const makeComment = ({parentId,author,body}) => {
 
-    console.log(parentId)
-    console.log(author)
-    console.log(body)
     let timestamp = Date.now()
 
     let id =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
@@ -112,6 +109,20 @@ export const voteComment = (commentID, option) => {
             'Content-Type' : 'application/json'
         },
         body: JSON.stringify({option})
+    }).then(res=> res.json())
+}
+
+export const editComment = (id, body) => {
+
+    let timestamp = Date.now()
+    
+    return fetch(`${api}/comments/${id}`, {
+        method: 'PUT',
+        headers: {
+            ...headers,
+            'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({body, timestamp})
     }).then(res=> res.json())
 }
 
