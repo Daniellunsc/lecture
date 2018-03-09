@@ -22,7 +22,8 @@ function postsReducer(state=initialState, action){
             let posts = state.posts.filter(post=> post.id !== action.post.id)
 
             return{
-                ...state, posts: [
+                ...state, 
+                posts: [
                     ...posts,
                     {
                         ...action.post
