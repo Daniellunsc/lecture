@@ -24,7 +24,7 @@ class PostDetails extends Component{
 
     componentDidMount(){
 
-        const {post, addPostInStore, setPostErrors, addCommentsToStore} = this.props
+        const {post, addPostInStore, setPostErrors} = this.props
         const {postID} = this.props.match.params
 
         if(Helpers.isNotEmpty(post))
@@ -49,6 +49,7 @@ class PostDetails extends Component{
 
     handleDelete = () => this.setState({confirmOpen: true})
     handleCancel = () => this.setState({confirmOpen: false})
+
     getComments(){
 
         const {postID} = this.props.match.params
@@ -136,7 +137,7 @@ function mapStateToProps({postsReducer, commentsReducer}, props){
                     .find(post => post.id === props.match.params.postID && post.deleted === false)
 
     const comments = commentsReducer.comments
-                    .filter(comment=> comment.deleted==false)
+                    .filter(comment=> comment.deleted === false)
 
     return{
         post,

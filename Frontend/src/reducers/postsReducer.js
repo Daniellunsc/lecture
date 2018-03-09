@@ -6,8 +6,6 @@ import {
     SET_POST_ORDER
 } from '../actions/postsActions'
 
-import * as Helpers from '../utils/Helpers'
-
 let initialState = {
     posts:[],
     postOrder: {}

@@ -1,7 +1,5 @@
 import React from 'react'
 import {Button,Icon} from 'semantic-ui-react'
-import {connect} from 'react-redux'
-import {alterPost} from '../actions/postsActions'
 
 const VoteControl = ({handleVote, voteScore}) => {
         return(

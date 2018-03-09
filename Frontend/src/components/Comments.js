@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
-import { Segment, Comment, Form, Header, Button, Icon, Divider, Label, Transition, List, Confirm} from 'semantic-ui-react'
+import { Segment, Comment, Form, Button, Icon, Label, Transition, Confirm} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import * as Helpers from '../utils/Helpers'
 import AddComment from './AddComment'
-import {Link} from 'react-router-dom'
-import VotePost from './VotePost';
 import VoteComment from './VoteComment';
 import * as API from '../utils/API'
 import {alterComment, markAsEditing} from '../actions/commentsActions'
@@ -20,7 +18,7 @@ class Comments extends Component {
 
     componentDidMount(){
 
-        const {comments, editing} = this.props
+        const {comments} = this.props
 
         if(Helpers.isNotEmpty(comments)){
             this.setState({loading: false})     
@@ -32,7 +30,7 @@ class Comments extends Component {
     componentWillReceiveProps(nextProps){
 
         const {comments, editing} = nextProps
-        let postToControl = comments.find(comment=> comment.id==editing)
+        let postToControl = comments.find(comment=> comment.id === editing)
 
         if(postToControl){
             this.setState({body: postToControl.body})
@@ -67,7 +65,7 @@ class Comments extends Component {
 
     render(){
         const {comments, postID, editing} = this.props
-        const {loading, confirmOpen, body} = this.state
+        const {confirmOpen, body} = this.state
 
         return(
         <Comment.Group>
@@ -138,7 +136,7 @@ class Comments extends Component {
 function mapStateToProps({commentsReducer}){
 
     let comments = commentsReducer.comments
-                    .filter(comment => comment.deleted == false)
+                    .filter(comment => comment.deleted === false)
                     .sort(function(a,b){
                         return b.timestamp - a.timestamp
                     })   

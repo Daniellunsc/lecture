@@ -1,7 +1,10 @@
 
-import * as Helpers from '../utils/Helpers'
-
-import {SET_COMMENTS, ADD_COMMENT, ALTER_COMMENT, SET_EDITING_ID} from '../actions/commentsActions'
+import {
+    SET_COMMENTS, 
+    ADD_COMMENT, 
+    ALTER_COMMENT, 
+    SET_EDITING_ID
+} from '../actions/commentsActions'
 
 let initialState = {
     comments: [],
