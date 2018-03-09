@@ -15,7 +15,7 @@ export function isNotEmpty(array){
     return false
   }
 
-  if(!Object.keys(array).length > 0){
+  if(Object.keys(array).length == 0){
     return false
   }
   
