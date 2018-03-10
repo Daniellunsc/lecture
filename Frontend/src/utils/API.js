@@ -22,6 +22,9 @@ export const MakePost = ({title, body, author, category}) => {
 
     let timestamp = Date.now()
 
+    {/*
+        CODE FROM GIST: https://gist.github.com/6174/6062387
+    */}
     let id =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
     return fetch(`${api}/posts`, {
@@ -81,6 +84,9 @@ export const makeComment = ({parentId,author,body}) => {
 
     let timestamp = Date.now()
 
+    {/*
+        CODE FROM GIST: https://gist.github.com/6174/6062387
+    */}
     let id =  Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
     return fetch(`${api}/comments`, {
