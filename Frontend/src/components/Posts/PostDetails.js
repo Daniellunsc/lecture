@@ -44,7 +44,6 @@ class PostDetails extends Component{
             .catch(err=> setPostErrors(err))
         }        
         
-        console.log(this.props)
     }
 
     handleDelete = () => this.setState({confirmOpen: true})
@@ -99,7 +98,7 @@ class PostDetails extends Component{
                     <Label.Detail>{this.props.comments.length}</Label.Detail>
                  </Label>
                 {
-                    post.author == author 
+                    post.author === author 
                     ?
                     <Button.Group floated='right' size='tiny'>
                         <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={this.handleDelete}>

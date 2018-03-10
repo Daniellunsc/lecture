@@ -38,14 +38,13 @@ class PageHeader extends Component{
 
     render(){
         const {loading} = this.state
-        const {categories, error, username} = this.props
+        const {categories, error} = this.props
         return ( 
             !loading ?
             <Menu>
                 <Link to='/' className='item'>All Posts</Link>
                 {this.renderCategories(categories)}
                 { error && <Label>We can't fetch the categories due to a error.</Label>}
-
             </Menu>
 
             :
@@ -58,8 +57,7 @@ class PageHeader extends Component{
 function MapStateToProps({categoriesReducer, loginReducer}){
     return{
         categories: categoriesReducer.categories,
-        error: categoriesReducer.error,
-        username: loginReducer.username
+        error: categoriesReducer.error
     }
 }
 

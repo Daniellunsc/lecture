@@ -100,7 +100,7 @@ class Comments extends Component {
                             <p>{comment.body}</p>
                             <VoteComment post={comment}/>
 
-                            {comment.author == author &&
+                            {comment.author === author &&
                                 <Button.Group floated='right' size='tiny'>
                                     <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={()=>this.handleDelete(comment.id)}>
                                         <Icon name='delete' attached='right'/> 

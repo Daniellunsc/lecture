@@ -22,7 +22,7 @@ class FormComment extends Component{
 
   render(){
 
-    const {body, author} = this.state
+    const {body} = this.state
 
     return(
       <Segment>

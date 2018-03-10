@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Modal, Header, Button, Form} from 'semantic-ui-react'
+import {Modal, Header, Form} from 'semantic-ui-react'
 import {connect} from 'react-redux'
 import {loginUser} from '../../actions/loginActions' 
 

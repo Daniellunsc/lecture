@@ -11,7 +11,6 @@ class AddPost extends Component {
     state = {
         title:'',
         body: '',
-        author: '',
         category: 'react',
         fireRedirect: false,
         newPostID: '',
@@ -29,7 +28,7 @@ class AddPost extends Component {
     }
 
     render(){
-        const {title, body, author, category, fireRedirect, newPostID} = this.state
+        const {title, body, category, fireRedirect, newPostID} = this.state
         const {categories} = this.props
         return(
            <Segment>
