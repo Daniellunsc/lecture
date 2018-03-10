@@ -2,10 +2,9 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { List, Icon, Label} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
-import * as helpers from '../utils/Helpers'
 import VotePost from './VotePost'
 
-import * as Helpers from '../utils/Helpers'
+import * as Helpers from '../../utils/Helpers'
 
 const PostList = ({posts}) => (
     <List relaxed='very' selection animated divided>
@@ -26,7 +25,7 @@ const PostList = ({posts}) => (
                                 <Icon name='comments' color='blue'/> {post.commentCount}
                                 </Label>
                                 <Label>
-                                Posted by <b>{post.author}</b> in {helpers.handleDateTime(post.timestamp)}  
+                                Posted by <b>{post.author}</b> in {Helpers.handleDateTime(post.timestamp)}  
                                 </Label>              
                             </List.Description>
                     </List.Content>

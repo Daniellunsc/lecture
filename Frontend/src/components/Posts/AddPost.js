@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Segment, Form, Label, Icon} from 'semantic-ui-react'
-import * as Helpers from '../utils/Helpers'
-import * as API from '../utils/API'
+import * as Helpers from '../../utils/Helpers'
+import * as API from '../../utils/API'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 
@@ -19,7 +19,11 @@ class AddPost extends Component {
 
     handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
     handleSubmit = () => {
-        API.MakePost(this.state)
+
+        const {title, body, category} = this.state
+        const {author} = this.props
+
+        API.MakePost({title, body, author, category,})
           .then(res=>this.setState({newPostID: res.id}))
           .then(res=>this.setState({fireRedirect:true}))   
     }
@@ -40,9 +44,6 @@ class AddPost extends Component {
                 <Form.Field>
                   <Form.TextArea required label='Post Description' name='body' value={body} placeholder='Write about...' onChange={this.handleFormEdit}/>
                 </Form.Field>
-                <Form.Field>
-                  <Form.Input required fluid label='Author' name='author' value={author} placeholder='Tell us your name or nickname' onChange={this.handleFormEdit}/>
-                </Form.Field>
                 {
                 Helpers.isNotEmpty(categories) && 
                 <Form.Field>
@@ -59,7 +60,7 @@ class AddPost extends Component {
     }
 }
 
-function MapStateToProps({categoriesReducer, postsReducer}){
+function MapStateToProps({categoriesReducer, loginReducer}){
     return{
         categories : categoriesReducer.categories.map(cat => {
          return {
@@ -69,6 +70,8 @@ function MapStateToProps({categoriesReducer, postsReducer}){
            text: cat.name
          }
         }),
+
+        author: loginReducer.username
     }
   }
 

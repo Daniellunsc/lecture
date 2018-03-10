@@ -5,7 +5,6 @@ class FormComment extends Component{
 
   state = {
     body: '',
-    author: ''
   }
 
   handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
@@ -14,7 +13,6 @@ class FormComment extends Component{
 
     this.setState({
       body: '',
-      author: ''
     })
 
     this.props.onSubmit(this.state)
@@ -30,9 +28,6 @@ class FormComment extends Component{
       <Segment>
       <Header>Add a comment!</Header>
       <Form onSubmit={this.handleSubmit.bind(this)}>
-        <Form.Field>
-          <Form.Input required name='author' placeholder='Author' value={author} onChange={this.handleFormEdit}/>
-        </Form.Field>
         <Form.TextArea required name='body'  placeholder='Comment' value={body} onChange={this.handleFormEdit}/>
         <Button content='Send Comment' labelPosition='left' icon='edit' primary />
       </Form>

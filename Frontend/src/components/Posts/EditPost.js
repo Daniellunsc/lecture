@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {Segment, Form, Label, Icon} from 'semantic-ui-react';
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import {addPost, alterPost, setPostErrors} from '../actions/postsActions'
-import * as API from '../utils/API'
-import * as Helpers from '../utils/Helpers';
+import {addPost, alterPost, setPostErrors} from '../../actions/postsActions'
+import * as API from '../../utils/API'
+import * as Helpers from '../../utils/Helpers';
 
 class EditPost extends Component {
 

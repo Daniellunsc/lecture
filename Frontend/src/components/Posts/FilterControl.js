@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Button, Icon} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import {setPostOrder} from '../actions/postsActions'
+import {setPostOrder} from '../../actions/postsActions'
 
 class FilterControl extends Component{
 

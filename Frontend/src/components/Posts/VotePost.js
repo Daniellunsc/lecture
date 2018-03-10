@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import * as API from '../utils/API'
+import * as API from '../../utils/API'
 import {connect} from 'react-redux'
-import {alterPost} from '../actions/postsActions'
-import VoteControl from './VoteControl'
+import {alterPost} from '../../actions/postsActions'
+import VoteControl from '../SharedComponents/VoteControl'
 
 class VotePost extends Component {
 

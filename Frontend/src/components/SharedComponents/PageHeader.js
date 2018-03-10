@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {Menu, Label,} from 'semantic-ui-react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import * as API from '../utils/API'
-import * as Helpers from '../utils/Helpers'
-import {setCategories, setErrorCategories} from '../actions/categoriesActions'
+import * as API from '../../utils/API'
+import * as Helpers from '../../utils/Helpers'
+import {setCategories, setErrorCategories} from '../../actions/categoriesActions'
 
 
 class PageHeader extends Component{
@@ -38,7 +38,7 @@ class PageHeader extends Component{
 
     render(){
         const {loading} = this.state
-        const {categories, error} = this.props
+        const {categories, error, username} = this.props
         return ( 
             !loading ?
             <Menu>
@@ -55,10 +55,11 @@ class PageHeader extends Component{
     }
 }
 
-function MapStateToProps({categoriesReducer}){
+function MapStateToProps({categoriesReducer, loginReducer}){
     return{
         categories: categoriesReducer.categories,
-        error: categoriesReducer.error
+        error: categoriesReducer.error,
+        username: loginReducer.username
     }
 }
 

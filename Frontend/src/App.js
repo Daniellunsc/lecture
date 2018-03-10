@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
-import PageHeader from './components/PageHeader'
-import PostDetails from './components/PostDetails'
-import PostContainer from './components/PostContainer'
+import PageHeader from './components/SharedComponents/PageHeader'
+import PostDetails from './components/Posts/PostDetails'
+import PostContainer from './components/Posts/PostContainer'
+import AddPost from './components/Posts/AddPost';
+import EditPost from './components/Posts/EditPost';
+
 import {Container} from 'semantic-ui-react'
+
+import {Route, Switch, withRouter} from 'react-router-dom'
+
+import LoginForm from './components/LoginForm/LoginForm'
+import {connect} from 'react-redux'
+
 import './App.css';
-import {Route, Switch} from 'react-router-dom'
-import AddPost from './components/AddPost';
-import EditPost from './components/EditPost';
 
 class App extends Component {
 
   render() {
+
+    const {user} = this.props
 
     return (
         <Container>
@@ -23,12 +31,11 @@ class App extends Component {
               <Route path='/:category/:postID' component={PostDetails} />
           */}
 
-         
-          <Route exact path='/' component={PostContainer} />
-          <Route exact path='/p/:category' component={PostContainer} />
-          <Route exact path='/p/:category/:postID' component={PostDetails} />
-          <Route exact path='/add' component={AddPost} />
-          <Route exact path='/e/:postID' component={EditPost} />
+          <Route exact path='/' render={(props)=> user ? <PostContainer {...props}/> : <LoginForm />} />
+          <Route exact path='/p/:category'render={(props)=> user ? <PostContainer {...props}/> : <LoginForm />} />
+          <Route exact path='/p/:category/:postID' render={(props)=> user ? <PostDetails {...props}/> : <LoginForm />} />
+          <Route exact path='/add' render={(props)=> user ? <AddPost {...props}/> : <LoginForm />}  />
+          <Route exact path='/e/:postID' render={(props)=> user ? <EditPost {...props}/> : <LoginForm />} />
            
           </Switch>
         
@@ -37,4 +44,10 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps({loginReducer}){
+  return{
+    user: loginReducer.username
+  }
+}
+
+export default withRouter(connect(mapStateToProps, null)(App));

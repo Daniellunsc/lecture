@@ -2,16 +2,16 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import { Segment, Icon, Label, Button, Confirm, Divider } from 'semantic-ui-react';
 
-import * as Helpers from '../utils/Helpers'
-import * as API from '../utils/API'
-import {addPost, alterPost, setPostErrors} from '../actions/postsActions'
-import {setcomments} from '../actions/commentsActions'
+import * as Helpers from '../../utils/Helpers'
+import * as API from '../../utils/API'
+import {addPost, alterPost, setPostErrors} from '../../actions/postsActions'
+import {setcomments} from '../../actions/commentsActions'
 
 import VotePost from './VotePost'
 
 import {Link} from 'react-router-dom'
-import NoPosts from './NoPosts';
-import Comments from './Comments';
+import NoPosts from '../SharedComponents/NoPosts';
+import Comments from '../Comments/Comments';
 
 class PostDetails extends Component{
 
@@ -77,9 +77,9 @@ class PostDetails extends Component{
 
     renderPost(post){
         const {confirmOpen} = this.state
-
+        const {author} = this.props
         return(
-            <Segment key={post.id} clearing>
+            <Segment key={post.id}>
                  
                  <Label attached='top' size='large' color='blue'>
                      <Icon name='arrow circle left' onClick={()=>this.props.history.goBack()}/>
@@ -98,14 +98,22 @@ class PostDetails extends Component{
                     <Icon name='comments' />
                     <Label.Detail>{this.props.comments.length}</Label.Detail>
                  </Label>
+                {
+                    post.author == author 
+                    ?
+                    <Button.Group floated='right' size='tiny'>
+                        <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={this.handleDelete}>
+                            <Icon name='delete'/> Delete
+                        </Button>
 
-                 <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={this.handleDelete}>
-                     <Icon name='delete'/> Delete
-                 </Button>
-
-                 <Button icon labelPosition='left'  as={Link} to={`/e/${post.id}`} size='tiny' color='blue' floated='right'>
-                     <Icon name='edit'/> Edit
-                 </Button>
+                        <Button icon labelPosition='left'  as={Link} to={`/e/${post.id}`} size='tiny' color='blue' floated='right'>
+                            <Icon name='edit'/> Edit
+                        </Button>
+                    </Button.Group>       
+                    :
+                    <div></div>
+                }
+                
 
                  <Confirm 
                      open={confirmOpen}
@@ -131,7 +139,7 @@ class PostDetails extends Component{
     }
 }
 
-function mapStateToProps({postsReducer, commentsReducer}, props){
+function mapStateToProps({postsReducer, commentsReducer, loginReducer}, props){
 
     const post = postsReducer.posts
                     .find(post => post.id === props.match.params.postID && post.deleted === false)
@@ -142,6 +150,7 @@ function mapStateToProps({postsReducer, commentsReducer}, props){
     return{
         post,
         comments,
+        author: loginReducer.username
     }
 }
 

@@ -2,15 +2,15 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
-import * as API from '../utils/API'
-import * as Helpers from '../utils/Helpers'
+import * as API from '../../utils/API'
+import * as Helpers from '../../utils/Helpers'
 
-import {setPosts, setPostErrors} from '../actions/postsActions'
+import {setPosts, setPostErrors} from '../../actions/postsActions'
 
 
 import FilterControl from './FilterControl'
 import PostList from './PostList'
-import NoPosts from './NoPosts'
+import NoPosts from '../SharedComponents/NoPosts'
 import { Segment , Label, Divider, Button} from 'semantic-ui-react'
 
 

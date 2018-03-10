@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import { Segment, Comment, Form, Button, Icon, Label, Transition, Confirm} from 'semantic-ui-react'
 import {connect} from 'react-redux'
-import * as Helpers from '../utils/Helpers'
+import * as Helpers from '../../utils/Helpers'
 import AddComment from './AddComment'
 import VoteComment from './VoteComment';
-import * as API from '../utils/API'
-import {alterComment, markAsEditing} from '../actions/commentsActions'
+import * as API from '../../utils/API'
+import {alterComment, markAsEditing} from '../../actions/commentsActions'
 
 class Comments extends Component {
 
@@ -64,7 +64,7 @@ class Comments extends Component {
     }
 
     render(){
-        const {comments, postID, editing} = this.props
+        const {comments, postID, editing, author} = this.props
         const {confirmOpen, body} = this.state
 
         return(
@@ -100,15 +100,20 @@ class Comments extends Component {
                             <p>{comment.body}</p>
                             <VoteComment post={comment}/>
 
-                            <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={()=>this.handleDelete(comment.id)}>
-                                <Icon name='delete' attached='right'/> 
-                                Delete
-                            </Button>
+                            {comment.author == author &&
+                                <Button.Group floated='right' size='tiny'>
+                                    <Button icon labelPosition='left' size='tiny' color='red' floated='right' onClick={()=>this.handleDelete(comment.id)}>
+                                        <Icon name='delete' attached='right'/> 
+                                        Delete
+                                    </Button>
 
-                            <Button icon labelPosition='left' size='tiny' color='blue' floated='right' onClick={()=>this.props.markEditing(comment.id)}>
-                                <Icon name='edit' attached='right'/> 
-                                Edit
-                            </Button>
+                                    <Button icon labelPosition='left' size='tiny' color='blue' floated='right' onClick={()=>this.props.markEditing(comment.id)}>
+                                        <Icon name='edit' attached='right'/> 
+                                        Edit
+                                    </Button>
+                                </Button.Group>
+                            }
+                           
 
                             <Confirm 
                             open={confirmOpen}
@@ -133,7 +138,7 @@ class Comments extends Component {
     }
 }
 
-function mapStateToProps({commentsReducer}){
+function mapStateToProps({commentsReducer, loginReducer}){
 
     let comments = commentsReducer.comments
                     .filter(comment => comment.deleted === false)
@@ -142,7 +147,8 @@ function mapStateToProps({commentsReducer}){
                     })   
     return{
         comments,
-        editing: commentsReducer.editingID
+        editing: commentsReducer.editingID,
+        author: loginReducer.username
     }
 }
 
