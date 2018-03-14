@@ -77,7 +77,7 @@ class EditPost extends Component {
                 <Form.Button content='Edit post' positive/>
             </Form>             
                 {
-                fireRedirect && <Redirect to={`/p/${category}/${id}`} />
+                fireRedirect && <Redirect to={`/${category}/${id}`} />
                 }
             </Segment>
         )    

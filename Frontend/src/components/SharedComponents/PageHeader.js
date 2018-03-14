@@ -28,7 +28,7 @@ class PageHeader extends Component{
                 categories.map(category => (
                     <Link 
                         key={category.path} 
-                        to={`/p/${category.path}`} 
+                        to={`/${category.path}`} 
                         className='item'>{Helpers.capitalize(category.name)}</Link>
                 ))
             )

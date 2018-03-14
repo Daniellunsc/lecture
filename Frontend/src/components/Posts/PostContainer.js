@@ -5,19 +5,21 @@ import {Link} from 'react-router-dom'
 import * as API from '../../utils/API'
 import * as Helpers from '../../utils/Helpers'
 
-import {setPosts, setPostErrors} from '../../actions/postsActions'
+import {setPosts, alterPost, setPostErrors} from '../../actions/postsActions'
 
 
 import FilterControl from './FilterControl'
 import PostList from './PostList'
 import NoPosts from '../SharedComponents/NoPosts'
-import { Segment , Label, Divider, Button} from 'semantic-ui-react'
+import { Segment , Label, Divider, Button, Confirm} from 'semantic-ui-react'
 
 
 class PostContainer extends Component {
 
     state = {
-        loading: true
+        loading: true,
+        confirmOpen: false,
+        selectedPost: ''
     }
 
     componentDidMount(){
@@ -32,6 +34,19 @@ class PostContainer extends Component {
 
         if(actualcategory !== newcategory)
             this.fetchPosts(newcategory)
+    }
+
+    handleDelete = (post) => this.setState({confirmOpen: true, selectedPost:post})
+    handleCancel = () => this.setState({confirmOpen: false})
+
+    handleConfirm = () => {
+
+        const {alterPostInStore, setPostErrors} = this.props
+
+         API.deletePost(this.state.selectedPost)
+             .then(res=> alterPostInStore(res))
+             .then(this.setState({confirmOpen: false, selectedPost: ''}))
+             .catch(err=> setPostErrors(err))
     }
 
     checkCategory(props){
@@ -63,7 +78,7 @@ class PostContainer extends Component {
 
     render(){
         const {posts} = this.props
-        const {loading} = this.state
+        const {loading, confirmOpen} = this.state
         return(
             !Helpers.isNotEmpty(posts) && !loading?
             <NoPosts />
@@ -77,7 +92,13 @@ class PostContainer extends Component {
                 <Button as={Link} to={'/add'} floated='right' positive size='tiny'>Add Post</Button>
                 <FilterControl />
                 <Divider hidden></Divider>
-                <PostList/>
+                <PostList handleDelete={this.handleDelete}/>
+                <Confirm 
+                     open={confirmOpen}
+                     onCancel={this.handleCancel}
+                     onConfirm={this.handleConfirm}
+                     content='Are you sure you want to delete this post?'
+                 />
             </Segment> 
         )
     }
@@ -91,6 +112,7 @@ function MapStateToProps({postsReducer}){
 
 function mapDispatchToProps(dispatch) {
     return{
+        alterPostInStore: (post)=> dispatch(alterPost(post)),
         setPosts: (posts) => dispatch(setPosts(posts)),
         setError: (error) => dispatch(setPostErrors(error))
     }  

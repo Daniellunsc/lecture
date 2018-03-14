@@ -6,7 +6,7 @@ import VoteControl from '../SharedComponents/VoteControl'
 
 class VotePost extends Component {
 
-    handleVote(vote){
+    handleVote = (vote) => {
         const {post, changePostVote} = this.props
         
         let optionString = vote === 1 ? 'upVote' : 'downVote'
@@ -18,7 +18,7 @@ class VotePost extends Component {
     
     render(){
         return(
-            <VoteControl voteScore={this.props.post.voteScore} handleVote={this.handleVote.bind(this)} />
+            <VoteControl voteScore={this.props.post.voteScore} handleVote={this.handleVote} />
         )
     }
 }

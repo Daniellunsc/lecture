@@ -11,12 +11,11 @@ class FormComment extends Component{
 
   handleSubmit(){
 
+    this.props.onSubmit(this.state)
+
     this.setState({
       body: '',
     })
-
-    this.props.onSubmit(this.state)
-
     
   }
 

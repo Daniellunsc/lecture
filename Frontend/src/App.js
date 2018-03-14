@@ -26,16 +26,13 @@ class App extends Component {
           <PageHeader />
 
           <Switch>
-
-          {/*
-              <Route path='/:category/:postID' component={PostDetails} />
-          */}
-
+          
           <Route exact path='/' render={(props)=> user ? <PostContainer {...props}/> : <LoginForm />} />
-          <Route exact path='/p/:category'render={(props)=> user ? <PostContainer {...props}/> : <LoginForm />} />
-          <Route exact path='/p/:category/:postID' render={(props)=> user ? <PostDetails {...props}/> : <LoginForm />} />
           <Route exact path='/add' render={(props)=> user ? <AddPost {...props}/> : <LoginForm />}  />
           <Route exact path='/e/:postID' render={(props)=> user ? <EditPost {...props}/> : <LoginForm />} />
+          <Route exact path='/:category'render={(props)=> user ? <PostContainer {...props}/> : <LoginForm />} />
+          <Route exact path='/:category/:postID' render={(props)=> user ? <PostDetails {...props}/> : <LoginForm />} />   
+
            
           </Switch>
         

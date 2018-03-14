@@ -52,7 +52,7 @@ class AddPost extends Component {
                 <Form.Button content='Add new post' positive/>
               </Form>             
               {
-                fireRedirect && <Redirect to={`/p/${category}/${newPostID}`} />
+                fireRedirect && <Redirect to={`/${category}/${newPostID}`} />
               }
            </Segment>
         )
