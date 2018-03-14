@@ -19,4 +19,4 @@ Para executar o projeto faça:
 O projeto é dividido em duas partes:
 
 * `FrontEnd` utilizando o react, é o que foi construído ao longo do projeto.
-* `ApiServer` servidor de apoio fornecido pela equipe Udacity.
+* `ApiServer` servidor de apoio com api fornecido pela equipe Udacity.
