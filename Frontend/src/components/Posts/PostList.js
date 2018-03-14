@@ -51,15 +51,15 @@ const PostList = ({posts, author, handleDelete}) => (
     </List>
 )
 
-function MapStateToProps({postsReducer, loginReducer}){
+function MapStateToProps({postsReducer, loginReducer, postOrderReducer}){
     return{
         posts: postsReducer.posts
         .slice()
         .filter(post=> post.deleted==false)
         .sort((a, b) => {
-          return (postsReducer.postOrder.asc === 1)
-            ? b[postsReducer.postOrder.type] - a[postsReducer.postOrder.type]
-            : a[postsReducer.postOrder.type] - b[postsReducer.postOrder.type]
+          return (postOrderReducer.postOrder.asc === 1)
+            ? b[postOrderReducer.postOrder.type] - a[postOrderReducer.postOrder.type]
+            : a[postOrderReducer.postOrder.type] - b[postOrderReducer.postOrder.type]
         }),
         author: loginReducer.username
     }

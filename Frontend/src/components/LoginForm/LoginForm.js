@@ -10,7 +10,7 @@ class LoginForm extends Component {
     }
 
     handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
-    handleSubmit(){
+    handleSubmit = () => {
 
         const {username} = this.state
         const {PerformLogin} = this.props
@@ -31,7 +31,7 @@ class LoginForm extends Component {
                     <Header>We identified that dont have a username!</Header>
                     <p>Please, tell us who you are</p>
 
-                    <Form onSubmit={this.handleSubmit.bind(this)}>
+                    <Form onSubmit={this.handleSubmit}>
                         <Form.Field>
                             <Form.Input
                                 required 

@@ -9,7 +9,7 @@ class FormComment extends Component{
 
   handleFormEdit = (e, { name, value }) => this.setState({ [name]: value })
 
-  handleSubmit(){
+  handleSubmit = () =>{
 
     this.props.onSubmit(this.state)
 
@@ -26,7 +26,7 @@ class FormComment extends Component{
     return(
       <Segment>
       <Header>Add a comment!</Header>
-      <Form onSubmit={this.handleSubmit.bind(this)}>
+      <Form onSubmit={this.handleSubmit}>
         <Form.TextArea required name='body'  placeholder='Comment' value={body} onChange={this.handleFormEdit}/>
         <Button content='Send Comment' labelPosition='left' icon='edit' primary />
       </Form>

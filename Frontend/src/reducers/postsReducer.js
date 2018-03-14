@@ -8,7 +8,6 @@ import {
 
 let initialState = {
     posts:[],
-    postOrder: {}
 }
 
 function postsReducer(state=initialState, action){
@@ -42,15 +41,7 @@ function postsReducer(state=initialState, action){
                 ]
             }
             
-        case SET_POST_ORDER:
-            return{
-                ...state,
-                postOrder:{
-                    type: action.payload.postOrder,
-                    asc: action.payload.asc
-                }
-            }
-
+            
         case POST_ERRORS:
             return{
                 ...state, postError: action.error

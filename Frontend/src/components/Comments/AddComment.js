@@ -6,7 +6,7 @@ import {addComment} from '../../actions/commentsActions'
  
 class AddComment extends Component{
 
-  handleSubmit(value){
+  handleSubmit = (value) =>{
 
     const {body} = value
     const {author} = this.props
@@ -20,7 +20,7 @@ class AddComment extends Component{
 
   render(){
     return(
-      <FormComment onSubmit={this.handleSubmit.bind(this)}/>
+      <FormComment onSubmit={this.handleSubmit}/>
     )
   }
 }
